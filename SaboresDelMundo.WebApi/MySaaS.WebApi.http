@@ -1,0 +1,6 @@
+@SaboresDelMundo.WebApi_HostAddress = http://localhost:5052
+
+GET {{SaboresDelMundo.WebApi_HostAddress}}/api/recipe/
+Accept: application/json
+
+###
