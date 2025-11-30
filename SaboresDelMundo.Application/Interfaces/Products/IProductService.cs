@@ -1,4 +1,4 @@
-﻿using MySaaS.Application.DTOs.Products;
+﻿using MySaaS.Application.DTOs.Items.Products;
 using MySaaS.Application.Interfaces.Common;
 using System;
 using System.Collections.Generic;

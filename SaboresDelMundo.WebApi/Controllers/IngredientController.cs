@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MySaaS.Application.DTOs.Ingredients;
+using MySaaS.Application.DTOs.Items.Ingredients;
+using MySaaS.Application.Interfaces.Items.Ingredients;
 using MySaaS.Application.Interfaces.Recipes;
-using MySaaS.Application.Interfaces.Supplies.Ingredients;
 using Serilog;
 namespace MySaaS.WebApi.Controllers
 {
@@ -10,17 +10,14 @@ namespace MySaaS.WebApi.Controllers
     public class IngredientController : ControllerBase
     {
         private readonly IIngredientService _service;
-        private readonly IRecipeService _recipeService;
         private readonly ILogger<IngredientController> _logger;
 
         public IngredientController(
             IIngredientService ingredientService,
-            ILogger<IngredientController> logger,
-            IRecipeService recipeService)
+            ILogger<IngredientController> logger)
         {
             _service = ingredientService;
             _logger = logger;
-            _recipeService = recipeService;
         }
 
         [HttpPost]

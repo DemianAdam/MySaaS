@@ -35,7 +35,7 @@ namespace MySaaS.Application.Mappers
         {
             return new RecipeComponent
             {
-                Ingredient = new Ingredient { SupplyId = createRecipeComponentDTO.IngredientId },
+                Ingredient = new Ingredient { ItemId = createRecipeComponentDTO.IngredientId },
                 Weight = createRecipeComponentDTO.Weight.Map(),
                 Waste = createRecipeComponentDTO.Waste.Map()
             };

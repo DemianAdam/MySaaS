@@ -3,13 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace MySaaS.Application.DTOs.Ingredients
+namespace MySaaS.Application.DTOs.Items.Ingredients
 {
-    public class UpdateIngredientDTO
+    public class CreateIngredientDTO
     {
-        public required int Id { get; set; }
         public required string Name { get; set; }
         public string? Description { get; set; }
-        public UpdateRecipeDTO? Recipe { get; set; }
+        public CreateRecipeDTO? Recipe { get; set; }
     }
 }

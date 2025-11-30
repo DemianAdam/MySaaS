@@ -3,12 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace MySaaS.Application.DTOs.Ingredients
+namespace MySaaS.Application.DTOs.Items.Products
 {
-    public class CreateIngredientDTO
+    public class ProductDTO
     {
+        public required int Id { get; set; }
         public required string Name { get; set; }
         public string? Description { get; set; }
-        public CreateRecipeDTO? Recipe { get; set; }
+        public required decimal Price { get; set; }
+        public RecipeDTO? Recipe { get; set; }
     }
 }

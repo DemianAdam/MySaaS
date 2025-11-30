@@ -1,5 +1,5 @@
 ﻿using MySaaS.Application.DTOs.Common;
-using MySaaS.Application.DTOs.Ingredients;
+using MySaaS.Application.DTOs.Items.Ingredients;
 using System;
 using System.Collections.Generic;
 using System.Linq;

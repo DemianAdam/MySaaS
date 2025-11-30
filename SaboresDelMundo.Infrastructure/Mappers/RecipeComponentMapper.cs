@@ -13,12 +13,12 @@ namespace MySaaS.Infrastructure.Mappers
         {
             Ingredient ingredient = new Ingredient
             {
-                SupplyId = recipeIngredientRow.Supply_Id,
-                Supply = new Supply
+                ItemId = recipeIngredientRow.Item_Id,
+                Item = new Item
                 {
-                    Id = recipeIngredientRow.Supply_Id,
-                    Name = recipeIngredientRow.Supply_Name,
-                    Description = recipeIngredientRow.Supply_Description
+                    Id = recipeIngredientRow.Item_Id,
+                    Name = recipeIngredientRow.Item_Name,
+                    Description = recipeIngredientRow.Item_Description
                 },
             };
 
@@ -27,7 +27,7 @@ namespace MySaaS.Infrastructure.Mappers
                 Unit recipeUnit = new Unit
                 {
                    Id = recipeIngredientRow.Ingredient_Recipe_Quantity_UnitId!.Value,
-                   Name = recipeIngredientRow.Ingredient_Recipe_Quantity_Unit_Name
+                   Name = recipeIngredientRow.Ingredient_Recipe_Quantity_Unit_Name!
                 };
 
                 Quantity recipeQuantity = new Quantity

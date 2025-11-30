@@ -1,4 +1,4 @@
-﻿using MySaaS.Application.DTOs.Ingredients;
+﻿using MySaaS.Application.DTOs.Items.Ingredients;
 using MySaaS.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -12,23 +12,23 @@ namespace MySaaS.Application.Mappers
     {
         public static IngredientDTO Map(this Ingredient ingredient)
         {
-            if (ingredient.Supply is null)
+            if(ingredient.Item is null)
             {
-                throw new ArgumentNullException(nameof(ingredient.Supply), "Supply property cannot be null when mapping Ingredient to IngredientDTO.");
+                throw new ArgumentNullException(nameof(ingredient.Item), "Item property cannot be null when mapping Ingredient to IngredientDTO.");
             }
 
             return new IngredientDTO
             {
-                Id = ingredient.Supply.Id,
-                Name = ingredient.Supply.Name,
-                Description = ingredient.Supply.Description,
+                Id = ingredient.Item.Id,
+                Name = ingredient.Item.Name,
+                Description = ingredient.Item.Description,
                 Recipe = ingredient.Recipe?.Map()
             };
         }
 
         public static Ingredient Map(this IngredientDTO ingredientDTO)
         {
-            Supply supply = new Supply
+            Item item = new Item
             {
                 Id = ingredientDTO.Id,
                 Name = ingredientDTO.Name,
@@ -37,15 +37,15 @@ namespace MySaaS.Application.Mappers
 
             return new Ingredient
             {
-                SupplyId = supply.Id,
-                Supply = supply,
+                ItemId = item.Id,
+                Item = item,
                 Recipe = ingredientDTO.Recipe?.Map()
             };
         }
 
         public static Ingredient Map(this UpdateIngredientDTO updateIngredientDTO)
         {
-            Supply supply = new Supply
+            Item item = new Item
             {
                 Id = updateIngredientDTO.Id,
                 Name = updateIngredientDTO.Name,
@@ -53,15 +53,15 @@ namespace MySaaS.Application.Mappers
             };
             return new Ingredient
             {
-                SupplyId = supply.Id,
-                Supply = supply,
+                ItemId = item.Id,
+                Item = item,
                 Recipe = updateIngredientDTO.Recipe?.Map()
             };
         }
 
         public static Ingredient Map(this CreateIngredientDTO createIngredientDTO)
         {
-            Supply supply = new Supply
+            Item item = new Item
             {
                 Name = createIngredientDTO.Name,
                 Description = createIngredientDTO.Description
@@ -69,8 +69,8 @@ namespace MySaaS.Application.Mappers
 
             return new Ingredient
             {
-                SupplyId = supply.Id,
-                Supply = supply,
+                ItemId = item.Id,
+                Item = item,
                 Recipe = createIngredientDTO.Recipe?.Map()
             };
         }
@@ -82,14 +82,9 @@ namespace MySaaS.Application.Mappers
 
         public static IEnumerable<Ingredient> Map(this IEnumerable<IngredientDTO> ingredientDTOs)
         {
-            
+
             return ingredientDTOs.Select(ingredientDTO => ingredientDTO.Map());
         }
 
     }
-
-    
-
-    
-    
 }

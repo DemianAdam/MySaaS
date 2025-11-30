@@ -46,7 +46,7 @@ namespace MySaaS.Infrastructure.Repositories
             var ingredients = obj.Ingredients.Select(ri => new
             {
                 Recipe_Id = recipeId,
-                Ingredient_Id = ri.Ingredient.SupplyId,
+                Ingredient_Id = ri.Ingredient.ItemId,
                 Weight_Unit_Id = ri.Weight.UnitId,
                 Weight_Quantity = ri.Weight.Amount,
                 Waste_Unit_Id = ri.Waste.UnitId,
@@ -115,9 +115,9 @@ namespace MySaaS.Infrastructure.Repositories
 
                     SELECT
                         ri.id_recipe AS {nameof(RecipeIngredientModel.RecipeId)},
-                        ri.id_ingredient AS {nameof(RecipeIngredientModel.Supply_Id)},
-                        s.name AS {nameof(RecipeIngredientModel.Supply_Name)},
-                        s.description AS {nameof(RecipeIngredientModel.Supply_Description)},
+                        ri.id_ingredient AS {nameof(RecipeIngredientModel.Item_Id)},
+                        s.name AS {nameof(RecipeIngredientModel.Item_Name)},
+                        s.description AS {nameof(RecipeIngredientModel.Item_Description)},
                         r.recipe_id AS {nameof(RecipeIngredientModel.Ingredient_Recipe_Id)},
                         r.name AS {nameof(RecipeIngredientModel.Ingredient_Recipe_Name)},
                         r.quantity_unit_id AS {nameof(RecipeIngredientModel.Ingredient_Recipe_Quantity_UnitId)},
@@ -177,9 +177,9 @@ namespace MySaaS.Infrastructure.Repositories
 
                     SELECT
                         ri.id_recipe AS {nameof(RecipeIngredientModel.RecipeId)},
-                        ri.id_ingredient AS {nameof(RecipeIngredientModel.Supply_Id)},
-                        s.name AS {nameof(RecipeIngredientModel.Supply_Name)},
-                        s.description AS {nameof(RecipeIngredientModel.Supply_Description)},
+                        ri.id_ingredient AS {nameof(RecipeIngredientModel.Item_Id)},
+                        s.name AS {nameof(RecipeIngredientModel.Item_Name)},
+                        s.description AS {nameof(RecipeIngredientModel.Item_Description)},
                         r.recipe_id AS {nameof(RecipeIngredientModel.Ingredient_Recipe_Id)},
                         r.name AS {nameof(RecipeIngredientModel.Ingredient_Recipe_Name)},
                         r.quantity_unit_id AS {nameof(RecipeIngredientModel.Ingredient_Recipe_Quantity_UnitId)},

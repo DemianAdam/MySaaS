@@ -1,6 +1,6 @@
 ﻿using MySaaS.Application.DTOs.Recipes;
 
-namespace MySaaS.Application.DTOs.Products
+namespace MySaaS.Application.DTOs.Items.Products
 {
     public class CreateProductDTO
     {

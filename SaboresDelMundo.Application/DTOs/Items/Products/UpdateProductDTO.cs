@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace MySaaS.Application.DTOs.Products
+namespace MySaaS.Application.DTOs.Items.Products
 {
     public class UpdateProductDTO
     {

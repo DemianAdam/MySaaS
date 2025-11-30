@@ -1,12 +1,12 @@
-﻿using MySaaS.Application.DTOs.Ingredients;
-using MySaaS.Application.Interfaces.Common;
-using MySaaS.Application.Interfaces.Supplies;
-using MySaaS.Application.Interfaces.Supplies.Ingredients;
+﻿using MySaaS.Application.Interfaces.Common;
 using MySaaS.Application.Mappers;
 using MySaaS.Domain.Entities;
 using Microsoft.Extensions.Logging;
 using MySaaS.Application.Interfaces.Recipes;
 using MySaaS.Domain.Exceptions.Common;
+using MySaaS.Application.Interfaces.Items;
+using MySaaS.Application.DTOs.Items.Ingredients;
+using MySaaS.Application.Interfaces.Items.Ingredients;
 
 
 namespace MySaaS.Application.Services
@@ -14,20 +14,21 @@ namespace MySaaS.Application.Services
     internal class IngredientService : IIngredientService
     {
         private readonly IIngredientRepository _ingredientRepository;
-        private readonly ISupplyRepository _supplyRepository;
+
+        private readonly IItemRepository _itemRepository;
         private readonly IRecipeRepository _recipeRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger _logger;
         public IngredientService(
             IIngredientRepository ingredientRepository,
-            ISupplyRepository supplyRepository,
             IRecipeRepository recipeRepository,
             IUnitOfWork unitOfWork,
+            IItemRepository itemRepository,
             ILogger<IngredientService> logger)
         {
             _ingredientRepository = ingredientRepository;
-            _supplyRepository = supplyRepository;
             _recipeRepository = recipeRepository;
+            _itemRepository = itemRepository;
             _unitOfWork = unitOfWork;
             _logger = logger;
         }
@@ -35,16 +36,16 @@ namespace MySaaS.Application.Services
         {
             Ingredient ingredient = obj.Map();
 
-            if (ingredient.Supply is null)
+            if(ingredient.Item is null)
             {
-                throw new ArgumentException("Ingredient must have an associated Supply.");
+                throw new ArgumentException("Ingredient must have an associated Item.");
             }
 
             _unitOfWork.BeginTransaction();
             try
             {
-                int supplyId = await _supplyRepository.AddAsync(ingredient.Supply);
-                ingredient.SupplyId = supplyId;
+                int itemId = await _itemRepository.AddAsync(ingredient.Item);
+                ingredient.ItemId = itemId;
 
                 if (ingredient.Recipe is not null)
                 {
@@ -88,7 +89,7 @@ namespace MySaaS.Application.Services
             try
             {
                 await _ingredientRepository.RemoveAsync(objId);
-                await _supplyRepository.RemoveAsync(objId);
+                await _itemRepository.RemoveAsync(objId);
 
                 _unitOfWork.Commit();
             }
@@ -107,9 +108,10 @@ namespace MySaaS.Application.Services
         public async Task UpdateAsync(UpdateIngredientDTO obj)
         {
             Ingredient ingredient = obj.Map();
-            if (ingredient.Supply is null)
+
+            if(ingredient.Item is null)
             {
-                throw new ArgumentException("Ingredient must have an associated Supply.");
+                throw new ArgumentException("Ingredient must have an associated Item.");
             }
 
             bool exists = await _ingredientRepository.ExistsAsync(obj.Id);
@@ -122,8 +124,7 @@ namespace MySaaS.Application.Services
             _unitOfWork.BeginTransaction();
             try
             {
-                await _supplyRepository.UpdateAsync(ingredient.Supply);
-
+                await _itemRepository.UpdateAsync(ingredient.Item);
 
                 if (ingredient.Recipe is not null)
                 {

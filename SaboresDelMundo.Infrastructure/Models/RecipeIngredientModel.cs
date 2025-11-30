@@ -9,9 +9,9 @@ namespace MySaaS.Infrastructure.Models
         public required int RecipeId { get; set; }
 
         //Ingredient - Supply
-        public required int Supply_Id { get; set; }
-        public required string Supply_Name { get; set; }
-        public string? Supply_Description { get; set; }
+        public required int Item_Id { get; set; }
+        public required string Item_Name { get; set; }
+        public string? Item_Description { get; set; }
 
         //Ingredient - Recipe 
         public int? Ingredient_Recipe_Id { get; set; }
