@@ -35,11 +35,11 @@ namespace MySaaS.Infrastructure.Repositories
                 """
                 SELECT EXISTS (
                     SELECT 1
-                    FROM supplies
-                    WHERE supply_id = @SupplyId
+                    FROM ingredients
+                    WHERE id_item = @ItemId
                 );
                 """;
-            return await _context.Connection.QuerySingleAsync<bool>(sql, new { Id = objId }, _context.Transaction);
+            return await _context.Connection.QuerySingleAsync<bool>(sql, new { ItemId = objId }, _context.Transaction);
         }
 
 
@@ -58,7 +58,7 @@ namespace MySaaS.Infrastructure.Repositories
                         u.unit_id AS {nameof(Ingredient.Recipe.Quantity.Unit.Id)},
                         u.name AS {nameof(Ingredient.Recipe.Quantity.Unit.Name)}
                     FROM ingredients AS i
-                    LEFT JOIN items AS it ON it.supply_id = i.id_item
+                    LEFT JOIN items AS it ON it.item_id = i.id_item
                     LEFT JOIN recipes AS r ON r.recipe_id = i.id_recipe
                     LEFT JOIN unities AS u ON u.unit_id = r.quantity_unit_id
                 """;
@@ -127,7 +127,7 @@ namespace MySaaS.Infrastructure.Repositories
             string sql =
                 """
                     DELETE FROM ingredients 
-                    WHERE id_supply = @Id
+                    WHERE id_item = @Id
                 """;
 
             return await _context.Connection.ExecuteAsync(sql,

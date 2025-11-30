@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using MySaaS.Application.Interfaces.Common;
 using MySaaS.Application.Interfaces.Common.Tenancy;
+using MySaaS.Application.Interfaces.Items;
 using MySaaS.Application.Interfaces.Items.Ingredients;
 using MySaaS.Application.Interfaces.Products;
 using MySaaS.Application.Interfaces.Recipes;
@@ -31,6 +32,7 @@ namespace MySaaS.Infrastructure
             services.AddScoped<IIngredientRepository, IngredientRepository>();
             services.AddScoped<IRecipeRepository, RecipeRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IItemRepository, ItemRepository>();
 
             return services;
         }

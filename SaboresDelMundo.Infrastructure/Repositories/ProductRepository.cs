@@ -22,17 +22,14 @@ namespace MySaaS.Infrastructure.Repositories
             string sql =
                 """
                     INSERT INTO products
-                    (name, description, price, id_recipe)
+                    (id_item, id_recipe)
                     VALUES
-                    (@Name, @Description, @Price, @RecipeId)
-                    RETURNING product_id;
+                    (@ItemId, @RecipeId)
                 """;
 
             return await _context.Connection.ExecuteScalarAsync<int>(sql, new
             {
-                Name = obj.Name,
-                Description = obj.Description,
-                Price = obj.Price,
+                ItemId = obj.ItemId,
                 RecipeId = obj.Recipe?.Id
             }, _context.Transaction);
         }
@@ -44,7 +41,7 @@ namespace MySaaS.Infrastructure.Repositories
                 SELECT EXISTS (
                     SELECT 1
                     FROM products
-                    WHERE product_id = @Id
+                    WHERE id_item = @Id
                 );
                 """;
             return await _context.Connection.QuerySingleAsync<bool>(sql, new { Id = objId }, _context.Transaction);
@@ -55,9 +52,9 @@ namespace MySaaS.Infrastructure.Repositories
             string sql =
                 $"""
                 SELECT
-                    p.product_id AS {nameof(Product.Id)},
-                    p.name AS {nameof(Product.Name)},
-                    p.description AS {nameof(Product.Description)},
+                    it.item_id AS {nameof(Product.Item.Id)},
+                    it.name AS {nameof(Product.Item.Name)},
+                    it.description AS {nameof(Product.Item.Description)},
                     p.price AS {nameof(Product.Price)},
                     r.recipe_id AS {nameof(Product.Recipe.Id)},
                     r.name AS {nameof(Product.Recipe.Name)},
@@ -66,20 +63,26 @@ namespace MySaaS.Infrastructure.Repositories
                     u.unit_id AS {nameof(Product.Recipe.Quantity.Unit.Id)},
                     u.name AS {nameof(Product.Recipe.Quantity.Unit.Name)}
                 FROM products AS p
+                LEFT JOIN items AS it ON p.id_item = it.item_id
                 LEFT JOIN recipes AS r ON p.id_recipe = r.recipe_id
                 LEFT JOIN unities AS u ON r.quantity_unit_id = u.unit_id
                 """;
-            return await _context.Connection.QueryAsync<Product, Recipe, Quantity, Unit, Product>(sql, (p, r, q, u) =>
+            return await _context.Connection.QueryAsync<Item, decimal, Recipe, Quantity, Unit, Product>(sql, (item, price, r, q, u) =>
             {
                 if (r is not null)
                 {
                     r.Quantity = q;
                     r.Quantity.Unit = u;
                 }
-                p.Recipe = r;
-                return p;
+                return new Product
+                {
+                    ItemId = item.Id,
+                    Item = item,
+                    Price = price,
+                    Recipe = r
+                };
             }, transaction: _context.Transaction,
-            splitOn: $"{nameof(Product.Recipe.Id)},{nameof(Product.Recipe.Quantity.UnitId)},{nameof(Product.Recipe.Quantity.Unit.Id)}");
+            splitOn: $" {nameof(Product.Price)},{nameof(Product.Recipe.Id)},{nameof(Product.Recipe.Quantity.UnitId)},{nameof(Product.Recipe.Quantity.Unit.Id)}");
         }
 
         public async Task<Product?> GetByIdAsync(int objId)
@@ -87,9 +90,9 @@ namespace MySaaS.Infrastructure.Repositories
             string sql =
                 $"""
                 SELECT
-                    p.product_id AS {nameof(Product.Id)},
-                    p.name AS {nameof(Product.Name)},
-                    p.description AS {nameof(Product.Description)},
+                    it.item_id AS {nameof(Product.Item.Id)},
+                    it.name AS {nameof(Product.Item.Name)},
+                    it.description AS {nameof(Product.Item.Description)},
                     p.price AS {nameof(Product.Price)},
                     r.recipe_id AS {nameof(Product.Recipe.Id)},
                     r.name AS {nameof(Product.Recipe.Name)},
@@ -98,23 +101,29 @@ namespace MySaaS.Infrastructure.Repositories
                     u.unit_id AS {nameof(Product.Recipe.Quantity.Unit.Id)},
                     u.name AS {nameof(Product.Recipe.Quantity.Unit.Name)}
                 FROM products AS p
+                LEFT JOIN items AS it ON p.id_item = it.item_id
                 LEFT JOIN recipes AS r ON p.id_recipe = r.recipe_id
                 LEFT JOIN unities AS u ON r.quantity_unit_id = u.unit_id
-                WHERE p.product_id = @Id
+                WHERE p.id_item = @Id
                 """;
 
-            var result = await _context.Connection.QueryAsync<Product, Recipe, Quantity, Unit, Product>(sql, (p, r, q, u) =>
+            var result = await _context.Connection.QueryAsync<Item, decimal, Recipe, Quantity, Unit, Product>(sql, (item, price, r, q, u) =>
             {
                 if (r is not null)
                 {
                     r.Quantity = q;
                     r.Quantity.Unit = u;
                 }
-                p.Recipe = r;
-                return p;
+                return new Product
+                {
+                    ItemId = item.Id,
+                    Item = item,
+                    Price = price,
+                    Recipe = r
+                };
             }, transaction: _context.Transaction,
-            splitOn: $"{nameof(Product.Recipe.Id)},{nameof(Product.Recipe.Quantity.UnitId)},{nameof(Product.Recipe.Quantity.Unit.Id)}");
-            
+            splitOn: $" {nameof(Product.Price)},{nameof(Product.Recipe.Id)},{nameof(Product.Recipe.Quantity.UnitId)},{nameof(Product.Recipe.Quantity.Unit.Id)}");
+
             return result.FirstOrDefault();
         }
 
@@ -123,7 +132,7 @@ namespace MySaaS.Infrastructure.Repositories
             string sql =
                 """
                     DELETE FROM products
-                    WHERE product_id = @Id;
+                    WHERE id_item = @Id;
                 """;
             return await _context.Connection.ExecuteAsync(sql, new { Id = objId }, _context.Transaction);
         }
@@ -134,17 +143,13 @@ namespace MySaaS.Infrastructure.Repositories
                 """
                     UPDATE products
                     SET
-                        name = @Name,
-                        description = @Description,
                         price = @Price,
                         id_recipe = @RecipeId
-                    WHERE product_id = @Id;
+                    WHERE id_item = @Id;
                 """;
             return await _context.Connection.ExecuteAsync(sql, new
             {
-                Id = obj.Id,
-                Name = obj.Name,
-                Description = obj.Description,
+                Id = obj.ItemId,
                 Price = obj.Price,
                 RecipeId = obj.Recipe?.Id
             }, _context.Transaction);

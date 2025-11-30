@@ -25,7 +25,7 @@ namespace MySaaS.Infrastructure.Repositories
                         (name,description)
                     VALUES
                         (@Name,@Description)
-                    RETURNING item_id;
+                    RETURNING item_id
                 """;
 
             return await _context.Connection.ExecuteScalarAsync<int>(sql,
