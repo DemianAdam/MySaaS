@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using MySaaS.Application.DTOs.Recipes;
+using MySaaS.Application.DTOs.Production.Recipes;
 using MySaaS.Application.Interfaces.Recipes;
 
 namespace MySaaS.WebApi.Controllers
@@ -18,8 +18,8 @@ namespace MySaaS.WebApi.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateRecipeDTO recipeDto)
         {
-            await _service.AddAsync(recipeDto);
-            return Ok();
+            var result =await _service.AddAsync(recipeDto);
+            return Ok(result);
         }
 
         [HttpGet]

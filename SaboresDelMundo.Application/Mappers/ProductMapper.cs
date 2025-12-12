@@ -1,5 +1,6 @@
-﻿using MySaaS.Application.DTOs.Items.Products;
-using MySaaS.Domain.Entities;
+﻿using MySaaS.Application.DTOs.Products;
+using MySaaS.Domain.Entities.Common;
+using MySaaS.Domain.Entities.Products;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,22 +11,33 @@ namespace MySaaS.Application.Mappers
     {
         public static Product Map(this ProductDTO productDTO)
         {
-            return new Product
+            Item item = new Item
             {
                 Id = productDTO.Id,
                 Name = productDTO.Name,
-                Description = productDTO.Description,
+                Description = productDTO.Description
+            };
+
+            return new Product
+            {
+                ItemId = item.Id,
+                Item = item,
                 Price = productDTO.Price,
                 Recipe = productDTO.Recipe?.Map()
             };
         }
         public static ProductDTO Map(this Product product)
         {
+            if(product.Item is null)
+            {
+                throw new ArgumentNullException(nameof(product.Item), "Product's Item property cannot be null when mapping to ProductDTO.");
+            }
+
             return new ProductDTO
             {
-                Id = product.Id,
-                Name = product.Name,
-                Description = product.Description,
+                Id = product.ItemId,
+                Name = product.Item.Name,
+                Description = product.Item.Description,
                 Price = product.Price,
                 Recipe = product.Recipe?.Map()
             };
@@ -43,24 +55,35 @@ namespace MySaaS.Application.Mappers
 
         public static Product Map(this CreateProductDTO createProductDTO)
         {
-            return new Product
+            Item item = new Item
             {
                 Name = createProductDTO.Name,
-                Description = createProductDTO.Description,
+                Description = createProductDTO.Description
+            };
+
+            return new Product(createProductDTO.Categories?.Map())
+            {
+                ItemId = item.Id,
+                Item = item,
                 Price = createProductDTO.Price,
-                Recipe = createProductDTO.Recipe?.Map()
+                RecipeId = createProductDTO.RecipeId,
             };
         }
 
         public static Product Map(this UpdateProductDTO updateProductDTO)
         {
-            return new Product
+            Item item = new Item
             {
                 Id = updateProductDTO.Id,
                 Name = updateProductDTO.Name,
-                Description = updateProductDTO.Description,
+                Description = updateProductDTO.Description
+            };
+            return new Product(updateProductDTO.Categories?.Map())
+            {
+                ItemId = item.Id,
+                Item = item,
                 Price = updateProductDTO.Price,
-                Recipe = updateProductDTO.Recipe?.Map()
+                RecipeId = updateProductDTO.RecipeId
             };
         }
 

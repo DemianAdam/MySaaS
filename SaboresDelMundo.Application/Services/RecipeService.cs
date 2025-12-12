@@ -1,7 +1,10 @@
-﻿using MySaaS.Application.DTOs.Recipes;
+﻿using MySaaS.Application.DTOs.Production.Recipes;
+using MySaaS.Application.Interfaces.Common;
+using MySaaS.Application.Interfaces.Items;
 using MySaaS.Application.Interfaces.Recipes;
 using MySaaS.Application.Mappers;
-using MySaaS.Domain.Entities.Recipes;
+using MySaaS.Domain.Entities.Common;
+using MySaaS.Domain.Entities.Production.Recipes;
 using MySaaS.Domain.Exceptions.Common;
 
 namespace MySaaS.Application.Services
@@ -9,14 +12,45 @@ namespace MySaaS.Application.Services
     internal class RecipeService : IRecipeService
     {
         private readonly IRecipeRepository _recipeRepository;
-        public RecipeService(IRecipeRepository recipeRepository)
+        private readonly IItemRepository _itemRepository;
+        private readonly IUnitOfWork _unitOfWork;
+
+        public RecipeService(
+            IRecipeRepository recipeRepository,
+            IItemRepository itemRepository,
+            IUnitOfWork unitOfWork)
         {
             _recipeRepository = recipeRepository;
+            _itemRepository = itemRepository;
+            _unitOfWork = unitOfWork;
         }
-        public Task<int> AddAsync(CreateRecipeDTO obj)
+        public async Task<RecipeDTO> AddAsync(CreateRecipeDTO obj)
         {
             Recipe recipe = obj.Map();
-            return _recipeRepository.AddAsync(recipe);
+            if(recipe.Item is null)
+            {
+                throw new ArgumentException("Recipe must have an associated Item.");
+            }
+
+            _unitOfWork.BeginTransaction();
+            try
+            {
+                int itemId = await _itemRepository.AddAsync(recipe.Item);
+                recipe.Id = itemId;
+
+                int recipeId = await _recipeRepository.AddAsync(recipe);
+                _unitOfWork.Commit();
+                return recipe.Map();
+            }
+            catch
+            {
+                _unitOfWork.Rollback();
+                throw;
+            }
+            finally
+            {
+                _unitOfWork.Dispose();
+            }
         }
 
         public async Task<IEnumerable<RecipeDTO>> GetAllAsync()
@@ -33,20 +67,55 @@ namespace MySaaS.Application.Services
 
         public async Task RemoveAsync(int objId)
         {
-            int affected = await _recipeRepository.RemoveAsync(objId);
-            if (affected == 0)
+            _unitOfWork.BeginTransaction();
+            try
             {
-                throw new NotFoundException<Recipe>(objId);
+                int affected = await _recipeRepository.RemoveAsync(objId);
+                if (affected == 0)
+                {
+                    throw new NotFoundException<Recipe>(objId);
+                }
+                await _itemRepository.RemoveAsync(objId);
+                _unitOfWork.Commit();
             }
+            catch
+            {
+                _unitOfWork.Rollback(); 
+                throw;
+            }
+            finally
+            {
+                _unitOfWork.Dispose();
+            }
+            
         }
 
         public async Task UpdateAsync(UpdateRecipeDTO obj)
         {
             Recipe recipe = obj.Map();
-            int affected = await _recipeRepository.UpdateAsync(recipe);
-            if (affected == 0)
+
+            if (recipe.Item is null)
             {
-                throw new NotFoundException<Recipe>(obj.Id);
+                throw new ArgumentException("Recipe must have an associated Item.");
+            }
+
+            using var transaction = _unitOfWork.BeginTransaction();
+
+            try
+            {
+                int affected = await _itemRepository.UpdateAsync(recipe.Item);
+                if (affected == 0)
+                {
+                    throw new NotFoundException<Item>(obj.Id);
+                }
+
+                await _recipeRepository.UpdateAsync(recipe);
+                transaction.Commit();
+            }
+            catch (Exception)
+            {
+                transaction.Rollback();
+                throw;
             }
         }
     }

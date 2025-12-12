@@ -1,7 +1,7 @@
-﻿using MySaaS.Application.DTOs.Unities;
+﻿using MySaaS.Application.DTOs.Common.Unities;
 using MySaaS.Application.Interfaces.Unities;
 using MySaaS.Application.Mappers;
-using MySaaS.Domain.Entities;
+using MySaaS.Domain.Entities.Common;
 using MySaaS.Domain.Exceptions.Common;
 using System;
 using System.Collections.Generic;
@@ -20,10 +20,12 @@ namespace MySaaS.Application.Services
             _unityRepository = unityRepository;
         }
 
-        public async Task<int> AddAsync(CreateUnitDTO unity)
+        public async Task<UnitDTO> AddAsync(CreateUnitDTO unity)
         {
             Unit entity = unity.Map();
-            return await _unityRepository.AddAsync(entity);
+            int id = await _unityRepository.AddAsync(entity);
+            entity.Id = id;
+            return entity.Map();
         }
 
         public async Task<IEnumerable<UnitDTO>> GetAllAsync()

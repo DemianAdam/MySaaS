@@ -1,4 +1,5 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Dapper;
+using Microsoft.IdentityModel.Tokens;
 using MySaaS.Application.Interfaces.Common;
 using MySaaS.Application.Interfaces.Common.Tenancy;
 using Npgsql;
@@ -24,13 +25,15 @@ namespace MySaaS.Infrastructure.Database
 
             _connection = new NpgsqlConnection(tenantContext.ConnectionString);
             _connection.Open();
+            _connection.Execute("SET search_path TO common, inventory, production, products, purchases, sales;");
         }
-        public void BeginTransaction()
+        public IUnitOfWork BeginTransaction()
         {
             if (_transaction == null)
             {
                 _transaction = _connection.BeginTransaction();
             }
+            return this;
         }
 
         public void Commit()

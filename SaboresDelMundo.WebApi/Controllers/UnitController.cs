@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using MySaaS.Application.DTOs.Unities;
+using MySaaS.Application.DTOs.Common.Unities;
 using MySaaS.Application.Interfaces.Unities;
 using MySaaS.Application.Services;
 
@@ -18,15 +18,15 @@ namespace MySaaS.WebApi.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateUnitDTO unityDto)
         {
-            await _service.AddAsync(unityDto);
-            return Ok();
+            var result = await _service.AddAsync(unityDto);
+            return Ok(result);
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var products = await _service.GetAllAsync();
-            return Ok(products);
+            var units = await _service.GetAllAsync();
+            return Ok(units);
         }
 
         [HttpPut]

@@ -1,6 +1,7 @@
-﻿using MySaaS.Application.DTOs.Recipes.Components;
+﻿using MySaaS.Application.DTOs.Production.Recipes.Components;
 using MySaaS.Domain.Entities;
-using MySaaS.Domain.Entities.Recipes;
+using MySaaS.Domain.Entities.Production;
+using MySaaS.Domain.Entities.Production.Recipes;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,7 +1,8 @@
 ﻿using Dapper;
 using MySaaS.Application.Interfaces.Items;
-using MySaaS.Domain.Entities;
+using MySaaS.Domain.Entities.Common;
 using MySaaS.Infrastructure.Database;
+using MySaaS.Infrastructure.Models.Querys;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -19,16 +20,7 @@ namespace MySaaS.Infrastructure.Repositories
 
         public async Task<int> AddAsync(Item obj)
         {
-            string sql =
-                """
-                    INSERT INTO items
-                        (name,description)
-                    VALUES
-                        (@Name,@Description)
-                    RETURNING item_id;
-                """;
-
-            return await _context.Connection.ExecuteScalarAsync<int>(sql,
+            return await _context.Connection.ExecuteScalarAsync<int>(ItemSQL.Insert,
                 new
                 {
                     Name = obj.Name,
@@ -36,68 +28,29 @@ namespace MySaaS.Infrastructure.Repositories
                 }, _context.Transaction);
         }
 
-        public Task<bool> ExistsAsync(int objId)
+        public async Task<bool> ExistsAsync(int objId)
         {
-            string sql =
-                """
-                SELECT EXISTS (
-                    SELECT 1
-                    FROM items
-                    WHERE item_id = @Id
-                );
-                """;
-
-            return _context.Connection.QuerySingleAsync<bool>(sql, new { Id = objId }, _context.Transaction);
+            return await _context.Connection.ExecuteScalarAsync<bool>(ItemSQL.Exists, new { Id = objId }, _context.Transaction);
         }
 
-        public Task<IEnumerable<Item>> GetAllAsync()
+        public async Task<IEnumerable<Item>> GetAllAsync()
         {
-            string sql =
-                $"""
-                    SELECT 
-                    item_id AS {nameof(Item.Id)},
-                    name AS {nameof(Item.Name)},
-                    description AS {nameof(Item.Description)}
-                    FROM items;
-                """;
-            return _context.Connection.QueryAsync<Item>(sql);
+            return await _context.Connection.QueryAsync<Item>(ItemSQL.Select);
         }
 
-        public Task<Item?> GetByIdAsync(int objId)
+        public async Task<Item?> GetByIdAsync(int objId)
         {
-            string sql =
-                $"""
-                    SELECT 
-                    item_id AS {nameof(Item.Id)},
-                    name AS {nameof(Item.Name)},
-                    description AS {nameof(Item.Description)}
-                    FROM items
-                    WHERE item_id = @Id;
-                """;
-            return _context.Connection.QuerySingleOrDefaultAsync<Item>(sql, new { Id = objId }, _context.Transaction);
+            return await _context.Connection.QuerySingleOrDefaultAsync<Item>(ItemSQL.SelectById, new { Id = objId }, _context.Transaction);
         }
 
-        public Task<int> RemoveAsync(int objId)
+        public async Task<int> RemoveAsync(int objId)
         {
-            string sql =
-                """
-                    DELETE FROM items
-                    WHERE item_id = @Id;
-                """;
-            return _context.Connection.ExecuteAsync(sql, new { Id = objId }, _context.Transaction);
+            return await _context.Connection.ExecuteAsync(ItemSQL.Delete, new { Id = objId }, _context.Transaction);
         }
 
-        public Task<int> UpdateAsync(Item obj)
+        public async Task<int> UpdateAsync(Item obj)
         {
-            string sql =
-                """
-                    UPDATE items
-                    SET
-                        name = @Name,
-                        description = @Description
-                    WHERE item_id = @Id;
-                """;
-            return _context.Connection.ExecuteAsync(sql,
+            return await _context.Connection.ExecuteAsync(ItemSQL.Update,
                 new
                 {
                     Id = obj.Id,

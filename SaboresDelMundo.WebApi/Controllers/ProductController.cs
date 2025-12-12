@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using MySaaS.Application.DTOs.Items.Products;
+using MySaaS.Application.DTOs.Products;
 using MySaaS.Application.Interfaces.Products;
 
 namespace MySaaS.WebApi.Controllers
@@ -18,8 +18,8 @@ namespace MySaaS.WebApi.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateProductDTO createProductDTO)
         {
-            await _service.AddAsync(createProductDTO);
-            return Ok();
+            var result = await _service.AddAsync(createProductDTO);
+            return Ok(result);
         }
 
         [HttpGet]

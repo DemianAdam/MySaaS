@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -17,4 +17,7 @@
     <ProjectReference Include="..\SaboresDelMundo.Infrastructure\MySaaS.Infrastructure.csproj" />
   </ItemGroup>
 
+	<ItemGroup>
+		<InternalsVisibleTo Include="MySaaS.Tests"/>
+	</ItemGroup>
 </Project>

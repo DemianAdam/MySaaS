@@ -6,21 +6,23 @@ namespace MySaaS.Infrastructure.Models
 {
     internal class RecipeIngredientModel
     {
-        public required int RecipeId { get; set; }
+        //Recipe info
+        public required int RecipeItemId { get; set; }
+        public required string RecipeItemName { get; set; }
+        public string? RecipeItemDescription { get; set; }
 
-        //Ingredient - Supply
-        public required int Item_Id { get; set; }
-        public required string Item_Name { get; set; }
-        public string? Item_Description { get; set; }
+        //Ingredient info
+        public required int IngredientItemId { get; set; }
+        public required string IngredientItemName { get; set; }
+        public string? IngredientItemDescription { get; set; }
 
-        //Ingredient - Recipe 
-        public int? Ingredient_Recipe_Id { get; set; }
-        public string? Ingredient_Recipe_Name { get; set; }
-
-        //Ingredient - Recipe - Quantity    
-        public int? Ingredient_Recipe_Quantity_UnitId { get; set; }
-        public double? Ingredient_Recipe_Quantity_Amount { get; set; }
-        public string? Ingredient_Recipe_Quantity_Unit_Name { get; set; }
+        //Recipe info of the ingredient (if it has one)
+        public int? Ingredient_RecipeItemId { get; set; }
+        public string? Ingredient_RecipeItemName { get; set; }
+        public string? Ingredient_RecipeItemDescription { get; set; }
+        public double? Ingredient_RecipeAmount { get; set; }
+        public int? Ingredient_RecipeUnitId { get; set; }
+        public string? Ingredient_RecipeUnitName { get; set; }
 
         //Weight and Waste
         public required int Weight_UnitId { get; set; }
@@ -33,11 +35,12 @@ namespace MySaaS.Infrastructure.Models
 
         public bool HasRecipe()
         {
-            return Ingredient_Recipe_Id is not null &&
-                   Ingredient_Recipe_Name is not null &&
-                   Ingredient_Recipe_Quantity_UnitId is not null &&
-                   Ingredient_Recipe_Quantity_Amount is not null &&
-                   Ingredient_Recipe_Quantity_Unit_Name is not null;
+            return Ingredient_RecipeItemId is not null &&
+                   Ingredient_RecipeItemName is not null &&
+                   Ingredient_RecipeItemDescription is not null &&
+                   Ingredient_RecipeUnitId is not null &&
+                   Ingredient_RecipeAmount is not null &&
+                   Ingredient_RecipeUnitName is not null;
         }
     }
 }

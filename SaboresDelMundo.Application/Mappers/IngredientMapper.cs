@@ -1,5 +1,7 @@
-﻿using MySaaS.Application.DTOs.Items.Ingredients;
-using MySaaS.Domain.Entities;
+﻿using MySaaS.Application.DTOs.Production.Ingredients;
+using MySaaS.Domain.Entities.Common;
+using MySaaS.Domain.Entities.Production;
+using MySaaS.Domain.Entities.Production.Recipes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,14 +14,14 @@ namespace MySaaS.Application.Mappers
     {
         public static IngredientDTO Map(this Ingredient ingredient)
         {
-            if(ingredient.Item is null)
+            if (ingredient.Item is null)
             {
                 throw new ArgumentNullException(nameof(ingredient.Item), "Item property cannot be null when mapping Ingredient to IngredientDTO.");
             }
 
             return new IngredientDTO
             {
-                Id = ingredient.Item.Id,
+                Id = ingredient.ItemId,
                 Name = ingredient.Item.Name,
                 Description = ingredient.Item.Description,
                 Recipe = ingredient.Recipe?.Map()
@@ -67,11 +69,23 @@ namespace MySaaS.Application.Mappers
                 Description = createIngredientDTO.Description
             };
 
+            Recipe? recipe = null;
+
+            if (createIngredientDTO.RecipeInfo is not null)
+            {
+                recipe = new Recipe(createIngredientDTO.RecipeInfo.Ingredients.Map())
+                {
+                    Id = item.Id,
+                    Item = item,
+                    Quantity = createIngredientDTO.RecipeInfo.Quantity.Map()
+                };
+            }
+
             return new Ingredient
             {
                 ItemId = item.Id,
                 Item = item,
-                Recipe = createIngredientDTO.Recipe?.Map()
+                Recipe = recipe
             };
         }
 
