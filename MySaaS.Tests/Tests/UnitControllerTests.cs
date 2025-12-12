@@ -3,7 +3,7 @@ using MySaaS.Tests.Factory;
 using System.Net.Http.Json;
 using FluentAssertions;
 
-namespace MySaaS.Tests
+namespace MySaaS.Tests.Tests
 {
     public class UnitControllerTests : BaseIntegrationTest
     {

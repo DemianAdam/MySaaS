@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace MySaaS.Tests
+namespace MySaaS.Tests.Tests
 {
     public abstract class BaseIntegrationTest : IClassFixture<WebApiFactory>, IAsyncLifetime
     {
