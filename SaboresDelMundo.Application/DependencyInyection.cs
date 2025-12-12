@@ -16,6 +16,7 @@ namespace MySaaS.Application
             services.AddScoped<IIngredientService, IngredientService>();
             services.AddScoped<IRecipeService, RecipeService>();
             services.AddScoped<IProductService,ProductService>();
+            services.AddScoped<IUnitConversionService, UnitConversionService>();
             return services;
         }
     }

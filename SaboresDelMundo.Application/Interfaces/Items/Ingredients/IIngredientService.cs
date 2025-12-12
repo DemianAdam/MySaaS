@@ -1,4 +1,4 @@
-﻿using MySaaS.Application.DTOs.Items.Ingredients;
+﻿using MySaaS.Application.DTOs.Production.Ingredients;
 using MySaaS.Application.Interfaces.Common;
 
 namespace MySaaS.Application.Interfaces.Items.Ingredients

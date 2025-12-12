@@ -1,5 +1,7 @@
-﻿using MySaaS.Application.DTOs.Recipes;
-using MySaaS.Domain.Entities.Recipes;
+﻿using MySaaS.Application.DTOs.Production.Recipes;
+using MySaaS.Domain.Entities.Common;
+using MySaaS.Domain.Entities.Production;
+using MySaaS.Domain.Entities.Production.Recipes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,20 +14,30 @@ namespace MySaaS.Application.Mappers
     {
         public static RecipeDTO Map(this Recipe recipe)
         {
+            if(recipe.Item is null)
+            {
+                throw new ArgumentNullException(nameof(recipe.Item), "Item property cannot be null when mapping Recipe to RecipeDTO.");
+            }
             return new RecipeDTO
             {
                 Id = recipe.Id,
-                Name = recipe.Name,
+                Name = recipe.Item.Name,
                 Ingredients = recipe.Ingredients.Map().ToList(),
                 Quantity = recipe.Quantity.Map(),
             };
         }
         public static Recipe Map(this RecipeDTO recipeDTO)
         {
+            Item item = new Item()
+            { 
+                Id = recipeDTO.Id,
+                Name = recipeDTO.Name,
+                Description = recipeDTO.Description
+            };
             Recipe recipe = new Recipe(recipeDTO.Ingredients.Map())
             {
                 Id = recipeDTO.Id,
-                Name = recipeDTO.Name,
+                Item = item,
                 Quantity = recipeDTO.Quantity.Map(),
             };
 
@@ -34,21 +46,33 @@ namespace MySaaS.Application.Mappers
 
         public static Recipe Map(this CreateRecipeDTO createRecipeDTO)
         {
-            Recipe recipe = new Recipe(createRecipeDTO.Ingredients.Map())
+            Item item = new Item()
             {
                 Name = createRecipeDTO.Name,
-                Quantity = createRecipeDTO.Quantity.Map(),
+                Description = createRecipeDTO.Description
+            };
+            Recipe recipe = new Recipe(createRecipeDTO.RecipeInfo.Ingredients.Map())
+            {
+                Id = item.Id,
+                Item = item,
+                Quantity = createRecipeDTO.RecipeInfo.Quantity.Map(),
             };
             return recipe;
         }
 
         public static Recipe Map(this UpdateRecipeDTO updateRecipeDTO)
         {
-            Recipe recipe = new Recipe(updateRecipeDTO.Ingredients.Map())
+            Item item = new Item()
             {
                 Id = updateRecipeDTO.Id,
                 Name = updateRecipeDTO.Name,
-                Quantity = updateRecipeDTO.Quantity.Map(),
+                Description = updateRecipeDTO.Description
+            };
+            Recipe recipe = new Recipe(updateRecipeDTO.RecipeInfo.Ingredients.Map())
+            {
+                Id = updateRecipeDTO.Id,
+                Item = item,
+                Quantity = updateRecipeDTO.RecipeInfo.Quantity.Map(),
             };
 
             return recipe;

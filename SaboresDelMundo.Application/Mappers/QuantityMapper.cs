@@ -1,5 +1,5 @@
-﻿using MySaaS.Application.DTOs.Common;
-using MySaaS.Domain.Entities;
+﻿using MySaaS.Application.DTOs.Common.Quantity;
+using MySaaS.Domain.Entities.Common;
 
 namespace MySaaS.Application.Mappers
 {

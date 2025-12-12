@@ -1,5 +1,5 @@
 ﻿using MySaaS.Application.Interfaces.Common;
-using MySaaS.Domain.Entities.Recipes;
+using MySaaS.Domain.Entities.Production.Recipes;
 using System;
 using System.Collections.Generic;
 using System.Linq;

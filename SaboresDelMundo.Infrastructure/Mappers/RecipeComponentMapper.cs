@@ -1,5 +1,6 @@
-﻿using MySaaS.Domain.Entities;
-using MySaaS.Domain.Entities.Recipes;
+﻿using MySaaS.Domain.Entities.Common;
+using MySaaS.Domain.Entities.Production;
+using MySaaS.Domain.Entities.Production.Recipes;
 using MySaaS.Infrastructure.Models;
 using System;
 using System.Collections.Generic;
@@ -13,12 +14,12 @@ namespace MySaaS.Infrastructure.Mappers
         {
             Ingredient ingredient = new Ingredient
             {
-                ItemId = recipeIngredientRow.Item_Id,
+                ItemId = recipeIngredientRow.IngredientItemId,
                 Item = new Item
                 {
-                    Id = recipeIngredientRow.Item_Id,
-                    Name = recipeIngredientRow.Item_Name,
-                    Description = recipeIngredientRow.Item_Description
+                    Id = recipeIngredientRow.IngredientItemId,
+                    Name = recipeIngredientRow.IngredientItemName,
+                    Description = recipeIngredientRow.IngredientItemDescription
                 },
             };
 
@@ -26,22 +27,28 @@ namespace MySaaS.Infrastructure.Mappers
             {
                 Unit recipeUnit = new Unit
                 {
-                   Id = recipeIngredientRow.Ingredient_Recipe_Quantity_UnitId!.Value,
-                   Name = recipeIngredientRow.Ingredient_Recipe_Quantity_Unit_Name!
+                    Id = recipeIngredientRow.Ingredient_RecipeUnitId!.Value,
+                    Name = recipeIngredientRow.Ingredient_RecipeUnitName!
                 };
 
                 Quantity recipeQuantity = new Quantity
                 {
                     UnitId = recipeUnit.Id,
-                    Amount = recipeIngredientRow.Ingredient_Recipe_Quantity_Amount!.Value,
+                    Amount = recipeIngredientRow.Ingredient_RecipeAmount!.Value,
                     Unit = recipeUnit
                 };
 
+                Item item = new Item()
+                {
+                    Id = recipeIngredientRow.Ingredient_RecipeItemId!.Value,
+                    Name = recipeIngredientRow.Ingredient_RecipeItemName!,
+                    Description = recipeIngredientRow.Ingredient_RecipeItemDescription!
+                };
 
                 ingredient.Recipe = new Recipe
                 {
-                    Id = recipeIngredientRow.Ingredient_Recipe_Id!.Value,
-                    Name = recipeIngredientRow.Ingredient_Recipe_Name!,
+                    Id = item.Id,
+                    Item = item,
                     Quantity = recipeQuantity,
                 };
             }

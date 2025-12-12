@@ -33,6 +33,7 @@ namespace MySaaS.Infrastructure
             services.AddScoped<IRecipeRepository, RecipeRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IItemRepository, ItemRepository>();
+            services.AddScoped<IUnitConversionRepository, UnitConversionRepository>();
 
             return services;
         }

@@ -1,12 +1,13 @@
 ﻿using MySaaS.Application.Interfaces.Common;
 using MySaaS.Application.Mappers;
-using MySaaS.Domain.Entities;
 using Microsoft.Extensions.Logging;
 using MySaaS.Application.Interfaces.Recipes;
 using MySaaS.Domain.Exceptions.Common;
 using MySaaS.Application.Interfaces.Items;
-using MySaaS.Application.DTOs.Items.Ingredients;
 using MySaaS.Application.Interfaces.Items.Ingredients;
+using MySaaS.Domain.Entities.Common;
+using MySaaS.Domain.Entities.Production;
+using MySaaS.Application.DTOs.Production.Ingredients;
 
 
 namespace MySaaS.Application.Services
@@ -36,7 +37,7 @@ namespace MySaaS.Application.Services
         {
             Ingredient ingredient = obj.Map();
 
-            if(ingredient.Item is null)
+            if (ingredient.Item is null)
             {
                 throw new ArgumentException("Ingredient must have an associated Item.");
             }
@@ -79,16 +80,14 @@ namespace MySaaS.Application.Services
 
         public async Task RemoveAsync(int objId)
         {
-            bool exists = await _ingredientRepository.ExistsAsync(objId);
-            if (!exists)
-            {
-                throw new NotFoundException<Ingredient>(objId);
-            }
-
             _unitOfWork.BeginTransaction();
             try
             {
-                await _ingredientRepository.RemoveAsync(objId);
+                int affected = await _ingredientRepository.RemoveAsync(objId);
+                if (affected == 0)
+                {
+                    throw new NotFoundException<Ingredient>(objId);
+                }
                 await _itemRepository.RemoveAsync(objId);
 
                 _unitOfWork.Commit();
@@ -109,22 +108,19 @@ namespace MySaaS.Application.Services
         {
             Ingredient ingredient = obj.Map();
 
-            if(ingredient.Item is null)
+            if (ingredient.Item is null)
             {
                 throw new ArgumentException("Ingredient must have an associated Item.");
-            }
-
-            bool exists = await _ingredientRepository.ExistsAsync(obj.Id);
-
-            if (!exists)
-            {
-                throw new NotFoundException<Ingredient>(obj.Id);
             }
 
             _unitOfWork.BeginTransaction();
             try
             {
-                await _itemRepository.UpdateAsync(ingredient.Item);
+                int affected = await _itemRepository.UpdateAsync(ingredient.Item);
+                if (affected == 0)
+                {
+                    throw new NotFoundException<Item>(ingredient.ItemId);
+                }
 
                 if (ingredient.Recipe is not null)
                 {

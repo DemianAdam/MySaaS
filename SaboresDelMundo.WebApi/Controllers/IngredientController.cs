@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MySaaS.Application.DTOs.Items.Ingredients;
+using MySaaS.Application.DTOs.Production.Ingredients;
 using MySaaS.Application.Interfaces.Items.Ingredients;
 using MySaaS.Application.Interfaces.Recipes;
 using Serilog;
@@ -32,12 +32,12 @@ namespace MySaaS.WebApi.Controllers
                 _logger.LogError(ex, "Error creating ingredient: {IngredientName}", ingredientDto.Name);
                 return StatusCode(500, "An error occurred while creating the ingredient.");
             }
-            
             _logger.LogInformation("Ingredient created: {IngredientName}", ingredientDto.Name);
             return Ok();
         }
 
         [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<IngredientDTO>),200)]
         public async Task<IActionResult> GetAll()
         {
             var ingredients = await _service.GetAllAsync();

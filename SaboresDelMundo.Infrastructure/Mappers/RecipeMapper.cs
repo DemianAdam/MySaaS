@@ -1,5 +1,5 @@
-﻿using MySaaS.Domain.Entities;
-using MySaaS.Domain.Entities.Recipes;
+﻿using MySaaS.Domain.Entities.Common;
+using MySaaS.Domain.Entities.Production.Recipes;
 using MySaaS.Infrastructure.Models;
 using System;
 using System.Collections.Generic;
@@ -14,7 +14,7 @@ namespace MySaaS.Infrastructure.Mappers
             Quantity quantity = new Quantity
             {
                 UnitId = recipeModel.UnitId,
-                Amount = recipeModel.Amount,
+                Amount = recipeModel.RecipeAmount,
                 Unit = new Unit
                 {
                     Id = recipeModel.UnitId,
@@ -22,10 +22,16 @@ namespace MySaaS.Infrastructure.Mappers
                 }
             };
 
+            Item item = new Item()
+            {
+                Id = recipeModel.ItemId,
+                Name = recipeModel.ItemName,
+                Description = recipeModel.ItemDescription,
+            };
             Recipe recipe = new Recipe
             {
-                Id = recipeModel.Id,
-                Name = recipeModel.Name,
+                Id = recipeModel.ItemId,
+                Item = item,
                 Quantity = quantity,
             };
 

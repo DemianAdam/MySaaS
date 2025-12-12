@@ -1,6 +1,5 @@
-﻿using MySaaS.Application.DTOs.Recipes;
+﻿using MySaaS.Application.DTOs.Production.Recipes;
 using MySaaS.Application.Interfaces.Common;
-using MySaaS.Domain.Entities.Recipes;
 
 namespace MySaaS.Application.Interfaces.Recipes
 {

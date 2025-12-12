@@ -1,5 +1,6 @@
-﻿using MySaaS.Application.DTOs.Items.Products;
-using MySaaS.Domain.Entities;
+﻿using MySaaS.Application.DTOs.Products;
+using MySaaS.Domain.Entities.Common;
+using MySaaS.Domain.Entities.Products;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -60,12 +61,12 @@ namespace MySaaS.Application.Mappers
                 Description = createProductDTO.Description
             };
 
-            return new Product
+            return new Product(createProductDTO.Categories?.Map())
             {
                 ItemId = item.Id,
                 Item = item,
                 Price = createProductDTO.Price,
-                Recipe = createProductDTO.Recipe?.Map()
+                RecipeId = createProductDTO.RecipeId,
             };
         }
 
@@ -77,12 +78,12 @@ namespace MySaaS.Application.Mappers
                 Name = updateProductDTO.Name,
                 Description = updateProductDTO.Description
             };
-            return new Product
+            return new Product(updateProductDTO.Categories?.Map())
             {
                 ItemId = item.Id,
                 Item = item,
                 Price = updateProductDTO.Price,
-                Recipe = updateProductDTO.Recipe?.Map()
+                RecipeId = updateProductDTO.RecipeId
             };
         }
 

@@ -4,7 +4,7 @@ namespace MySaaS.Application.Interfaces.Common
 {
     public interface IUnitOfWork : IDisposable
     {
-        void BeginTransaction();
+        IUnitOfWork BeginTransaction();
         void Commit();
         void Rollback();
     }
