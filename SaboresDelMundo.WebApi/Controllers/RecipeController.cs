@@ -18,8 +18,8 @@ namespace MySaaS.WebApi.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateRecipeDTO recipeDto)
         {
-            await _service.AddAsync(recipeDto);
-            return Ok();
+            var result =await _service.AddAsync(recipeDto);
+            return Ok(result);
         }
 
         [HttpGet]

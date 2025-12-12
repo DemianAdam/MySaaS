@@ -36,6 +36,8 @@ namespace MySaaS.WebApi.Middlewares
                 await httpContext.Response.WriteAsync("Invalid tenant");
                 return;
             }
+
+
             var tenant = await tenantResolver.ResolveAsync(tenantId);
 
             if (tenant is null)

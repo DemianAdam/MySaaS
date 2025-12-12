@@ -18,8 +18,8 @@ namespace MySaaS.WebApi.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateProductDTO createProductDTO)
         {
-            await _service.AddAsync(createProductDTO);
-            return Ok();
+            var result = await _service.AddAsync(createProductDTO);
+            return Ok(result);
         }
 
         [HttpGet]

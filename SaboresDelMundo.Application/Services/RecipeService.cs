@@ -24,7 +24,7 @@ namespace MySaaS.Application.Services
             _itemRepository = itemRepository;
             _unitOfWork = unitOfWork;
         }
-        public async Task<int> AddAsync(CreateRecipeDTO obj)
+        public async Task<RecipeDTO> AddAsync(CreateRecipeDTO obj)
         {
             Recipe recipe = obj.Map();
             if(recipe.Item is null)
@@ -40,7 +40,7 @@ namespace MySaaS.Application.Services
 
                 int recipeId = await _recipeRepository.AddAsync(recipe);
                 _unitOfWork.Commit();
-                return recipeId;
+                return recipe.Map();
             }
             catch
             {

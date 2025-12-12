@@ -27,7 +27,11 @@ namespace MySaaS.Infrastructure
             services.AddScoped<ITenantResolver>(sp => new TenantResolver(connectionString));
             services.AddScoped<DapperUnitOfWork>();
             services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<DapperUnitOfWork>());
+
             services.AddScoped<IDapperContext>(sp => sp.GetRequiredService<DapperUnitOfWork>());
+
+
+
             services.AddScoped<IUnitRepository, UnitRepository>();
             services.AddScoped<IIngredientRepository, IngredientRepository>();
             services.AddScoped<IRecipeRepository, RecipeRepository>();

@@ -18,11 +18,13 @@ namespace MySaaS.Application.Services
         {
             _unitConversionRepository = unitConversionRepository;
         }
-        public async Task<int> AddAsync(CreateUnitConversionDTO obj)
+        public async Task<UnitConversionDTO> AddAsync(CreateUnitConversionDTO obj)
         {
             UnitConversion unitConversion = obj.Map();
 
-            return await _unitConversionRepository.AddAsync(unitConversion);
+            int id = await _unitConversionRepository.AddAsync(unitConversion);
+            unitConversion.Id = id;
+            return unitConversion.Map();
         }
 
 

@@ -26,7 +26,7 @@ namespace MySaaS.Application.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<int> AddAsync(CreateProductDTO obj)
+        public async Task<ProductDTO> AddAsync(CreateProductDTO obj)
         {
             Product product = obj.Map();
             if (product.Item is null)
@@ -41,7 +41,8 @@ namespace MySaaS.Application.Services
                 product.ItemId = itemId;
                 int productId = await _productRepository.AddAsync(product);
                 _unitOfWork.Commit();
-                return productId;
+
+                return product.Map();
             }
             catch
             {

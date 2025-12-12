@@ -23,9 +23,10 @@ namespace MySaaS.WebApi.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateIngredientDTO ingredientDto)
         {
+            IngredientDTO result;
             try
             {
-                await _service.AddAsync(ingredientDto);
+                result = await _service.AddAsync(ingredientDto);
             }
             catch (Exception ex)
             {
@@ -33,11 +34,11 @@ namespace MySaaS.WebApi.Controllers
                 return StatusCode(500, "An error occurred while creating the ingredient.");
             }
             _logger.LogInformation("Ingredient created: {IngredientName}", ingredientDto.Name);
-            return Ok();
+            return Ok(result);
         }
 
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<IngredientDTO>),200)]
+        [ProducesResponseType(typeof(IEnumerable<IngredientDTO>), 200)]
         public async Task<IActionResult> GetAll()
         {
             var ingredients = await _service.GetAllAsync();

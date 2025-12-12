@@ -25,8 +25,8 @@ namespace MySaaS.WebApi.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateUnitConversionDTO conversionDto)
         {
-            await _unitConversionService.AddAsync(conversionDto);
-            return Ok();
+            var result = await _unitConversionService.AddAsync(conversionDto);
+            return Ok(result);
         }
 
         [HttpPut]

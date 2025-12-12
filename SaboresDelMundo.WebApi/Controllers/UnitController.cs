@@ -18,15 +18,15 @@ namespace MySaaS.WebApi.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateUnitDTO unityDto)
         {
-            await _service.AddAsync(unityDto);
-            return Ok();
+            var result = await _service.AddAsync(unityDto);
+            return Ok(result);
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var products = await _service.GetAllAsync();
-            return Ok(products);
+            var units = await _service.GetAllAsync();
+            return Ok(units);
         }
 
         [HttpPut]

@@ -21,7 +21,7 @@ namespace MySaaS.Application.Mappers
 
             return new IngredientDTO
             {
-                Id = ingredient.Item.Id,
+                Id = ingredient.ItemId,
                 Name = ingredient.Item.Name,
                 Description = ingredient.Item.Description,
                 Recipe = ingredient.Recipe?.Map()
