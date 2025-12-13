@@ -1,4 +1,4 @@
-﻿namespace MySaaS.Application.Interfaces.Common
+﻿namespace MySaaS.Application.Interfaces.Base
 {
     public interface IService<Tout,TCreate,TUpdate>
     {

@@ -1,7 +1,7 @@
 ﻿using MySaaS.Application.DTOs.Products;
-using MySaaS.Application.Interfaces.Common;
-using MySaaS.Application.Interfaces.Items;
-using MySaaS.Application.Interfaces.Products;
+using MySaaS.Application.Interfaces.Base;
+using MySaaS.Application.Interfaces.Common.Items;
+using MySaaS.Application.Interfaces.Products.Products;
 using MySaaS.Application.Mappers;
 using MySaaS.Domain.Entities.Products;
 using MySaaS.Domain.Exceptions.Common;

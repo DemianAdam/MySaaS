@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MySaaS.Application.DTOs.Production.Recipes;
-using MySaaS.Application.Interfaces.Recipes;
+using MySaaS.Application.Interfaces.Production.Recipes;
 
 namespace MySaaS.WebApi.Controllers
 {

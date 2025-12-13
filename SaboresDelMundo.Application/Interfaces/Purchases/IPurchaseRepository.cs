@@ -1,4 +1,4 @@
-﻿using MySaaS.Application.Interfaces.Common;
+﻿using MySaaS.Application.Interfaces.Base;
 using MySaaS.Domain.Entities.Purchases;
 using System;
 using System.Collections.Generic;

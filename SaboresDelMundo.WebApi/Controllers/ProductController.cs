@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MySaaS.Application.DTOs.Products;
-using MySaaS.Application.Interfaces.Products;
+using MySaaS.Application.Interfaces.Products.Products;
 
 namespace MySaaS.WebApi.Controllers
 {

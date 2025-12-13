@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using MySaaS.Application.Interfaces.Items.Ingredients;
-using MySaaS.Application.Interfaces.Products;
-using MySaaS.Application.Interfaces.Recipes;
-using MySaaS.Application.Interfaces.Unities;
+using MySaaS.Application.Interfaces.Common.Unities;
+using MySaaS.Application.Interfaces.Production.Ingredients;
+using MySaaS.Application.Interfaces.Production.Recipes;
+using MySaaS.Application.Interfaces.Products.Products;
 using MySaaS.Application.Services;
 
 

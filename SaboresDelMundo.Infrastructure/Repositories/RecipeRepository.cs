@@ -1,5 +1,5 @@
 ﻿using Dapper;
-using MySaaS.Application.Interfaces.Recipes;
+using MySaaS.Application.Interfaces.Production.Recipes;
 using MySaaS.Domain.Entities.Common;
 using MySaaS.Domain.Entities.Production.Recipes;
 using MySaaS.Infrastructure.Database;

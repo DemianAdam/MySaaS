@@ -1,6 +1,6 @@
 ﻿using MySaaS.Application.DTOs.Common.UnitConversions;
 using MySaaS.Application.Interfaces.Common;
-using MySaaS.Application.Interfaces.Unities;
+using MySaaS.Application.Interfaces.Common.Unities;
 using MySaaS.Application.Mappers;
 using MySaaS.Domain.Entities.Common;
 using MySaaS.Domain.Exceptions.Common;

@@ -1,6 +1,6 @@
 ﻿using Dapper;
 using Microsoft.IdentityModel.Tokens;
-using MySaaS.Application.Interfaces.Common;
+using MySaaS.Application.Interfaces.Base;
 using MySaaS.Application.Interfaces.Common.Tenancy;
 using Npgsql;
 using System.Data;

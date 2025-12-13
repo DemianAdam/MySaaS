@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MySaaS.Application.DTOs.Production.Ingredients;
-using MySaaS.Application.Interfaces.Items.Ingredients;
-using MySaaS.Application.Interfaces.Recipes;
-using Serilog;
+using MySaaS.Application.Interfaces.Production.Ingredients;
 namespace MySaaS.WebApi.Controllers
 {
     [Route("api/[controller]")]

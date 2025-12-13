@@ -1,7 +1,7 @@
 ﻿using MySaaS.Application.DTOs.Production.Recipes;
-using MySaaS.Application.Interfaces.Common;
-using MySaaS.Application.Interfaces.Items;
-using MySaaS.Application.Interfaces.Recipes;
+using MySaaS.Application.Interfaces.Base;
+using MySaaS.Application.Interfaces.Common.Items;
+using MySaaS.Application.Interfaces.Production.Recipes;
 using MySaaS.Application.Mappers;
 using MySaaS.Domain.Entities.Common;
 using MySaaS.Domain.Entities.Production.Recipes;

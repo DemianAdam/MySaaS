@@ -1,7 +1,7 @@
-﻿using MySaaS.Application.Interfaces.Common;
+﻿using MySaaS.Application.Interfaces.Base;
 using MySaaS.Domain.Entities.Common;
 
-namespace MySaaS.Application.Interfaces.Unities
+namespace MySaaS.Application.Interfaces.Common.Unities
 {
     public interface IUnitRepository : IRepository<Unit>
     {

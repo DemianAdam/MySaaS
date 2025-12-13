@@ -1,6 +1,6 @@
 ﻿using MySaaS.Domain;
 
-namespace MySaaS.Application.Interfaces.Common
+namespace MySaaS.Application.Interfaces.Base
 {
     public interface IRepository<T>
     {

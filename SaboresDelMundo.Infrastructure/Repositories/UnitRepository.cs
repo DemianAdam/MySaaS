@@ -1,5 +1,5 @@
 ﻿using Dapper;
-using MySaaS.Application.Interfaces.Unities;
+using MySaaS.Application.Interfaces.Common.Unities;
 using MySaaS.Domain.Entities.Common;
 using MySaaS.Infrastructure.Database;
 using MySaaS.Infrastructure.Models.Querys;

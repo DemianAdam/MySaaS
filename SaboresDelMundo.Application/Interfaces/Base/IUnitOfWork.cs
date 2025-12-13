@@ -1,6 +1,4 @@
-﻿
-
-namespace MySaaS.Application.Interfaces.Common
+﻿namespace MySaaS.Application.Interfaces.Base
 {
     public interface IUnitOfWork : IDisposable
     {
