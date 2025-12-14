@@ -33,5 +33,6 @@ namespace MySaaS.Tests.Tests
             responseResult.Id.Should().Be(1);
             responseResult.Name.Should().Be("Test");
         }
+
     }
 }

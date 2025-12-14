@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SaboresDelMundo.WebApi\MySaaS.WebApi.csproj" />
+    <ProjectReference Include="..\MySaaS.WebApi\MySaaS.WebApi.csproj" />
   </ItemGroup>
 
   <ItemGroup>
