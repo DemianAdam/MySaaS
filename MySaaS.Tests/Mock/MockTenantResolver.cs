@@ -13,7 +13,7 @@ namespace MySaaS.Tests.Mock
             TenantInfo tenantInfo = new TenantInfo()
             {
                 TenantId = tenantId,
-                ConnectionString = "Host=localhost;Port=5432;Database=MySaaS_Tests;Username=postgres;Password=7441893a;"
+                ConnectionString = "Host=localhost;Port=5432;Database=MySaaS_Tests;Username=postgres;Password=AsDaSd77.;"
             };
 
             return Task.FromResult(tenantInfo)!;

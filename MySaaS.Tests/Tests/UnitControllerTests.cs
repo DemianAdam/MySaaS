@@ -61,5 +61,24 @@ namespace MySaaS.Tests.Tests
 
         }
 
+        [Fact]
+        public async Task CreateUnit_WhenDeletingUnit_ReturnsSucess()
+        {
+            //arrange
+            HttpClient client = Factory.CreateClient();
+            CreateUnitDTO createUnitDTO = new CreateUnitDTO() { Name = "Test", };
+            var response = await client.PostAsJsonAsync("/api/unit", createUnitDTO);
+
+            //act
+
+            var createdUnit = await response.Content.ReadFromJsonAsync<UnitDTO>();
+
+            var response2 = await client.DeleteAsync("/api/unit/" + createdUnit!.Id);
+
+            //assert
+            response2.IsSuccessStatusCode.Should().BeTrue();
+
+        }
+
     }
 }
