@@ -104,7 +104,7 @@ namespace MySaaS.Application.Services
             }
         }
 
-        public async Task UpdateAsync(UpdateIngredientDTO obj)
+        public async Task<IngredientDTO> UpdateAsync(UpdateIngredientDTO obj)
         {
             Ingredient ingredient = obj.Map();
 
@@ -130,6 +130,7 @@ namespace MySaaS.Application.Services
                 await _ingredientRepository.UpdateAsync(ingredient);
 
                 _unitOfWork.Commit();
+                return ingredient.Map();
             }
             catch (Exception ex)
             {

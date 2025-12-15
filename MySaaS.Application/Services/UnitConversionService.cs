@@ -44,7 +44,7 @@ namespace MySaaS.Application.Services
         }
 
 
-        public async Task UpdateAsync(UpdateUnitConversionDTO obj)
+        public async Task<UnitConversionDTO> UpdateAsync(UpdateUnitConversionDTO obj)
         {
             UnitConversion unitConversion = obj.Map();
             int affected = await _unitConversionRepository.UpdateAsync(unitConversion);
@@ -52,6 +52,7 @@ namespace MySaaS.Application.Services
             {
                 throw new NotFoundException<UnitConversion>(obj.Id);
             }
+            return unitConversion.Map();
         }
     }
 }

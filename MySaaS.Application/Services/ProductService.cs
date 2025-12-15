@@ -85,7 +85,7 @@ namespace MySaaS.Application.Services
             }
         }
 
-        public async Task UpdateAsync(UpdateProductDTO obj)
+        public async Task<ProductDTO> UpdateAsync(UpdateProductDTO obj)
         {
             Product product = obj.Map();
             if (product.Item is null)
@@ -102,6 +102,7 @@ namespace MySaaS.Application.Services
                 }
                 await _itemRepository.UpdateAsync(product.Item);
                 _unitOfWork.Commit();
+                return product.Map();
             }
             catch
             {
