@@ -10,6 +10,6 @@ namespace MySaaS.Application.DTOs.Production.Ingredients
     {
         public required string Name { get; set; }
         public string? Description { get; set; }
-        public CreateRecipeInfoDTO? RecipeInfo { get; set; }
+        public CreateRecipeRelationsDTO? RecipeInfo { get; set; }
     }
 }

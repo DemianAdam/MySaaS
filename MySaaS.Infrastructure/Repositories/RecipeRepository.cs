@@ -113,31 +113,18 @@ namespace MySaaS.Infrastructure.Repositories
                 Quantity_Unit = obj.Quantity.Amount
             }, _context.Transaction);
 
-
             var ingredients = obj.Ingredients.Map(obj);
 
-
-            var currentIngredients = await _context.Connection.QueryAsync<RecipeIngredientModel>(RecipeIngredientSQL.SelectById, new
-            {
-                RecipeId = obj.Id,
-            }, _context.Transaction);
-
-            var toRemove = currentIngredients.Where(x => !ingredients.Any(i => i.Id == x.Id));
-            var toUpdate = ingredients.Where(x => currentIngredients.Any(c => c.Id == x.Id));
-            var toAdd = ingredients.Where(x => !currentIngredients.Any(c => c.Id == x.Id));
-
-            affected += await _context.Connection.ExecuteAsync(RecipeIngredientSQL.Delete,
-                toRemove,
-                _context.Transaction);
-
-            affected += await _context.Connection.ExecuteAsync(RecipeIngredientSQL.Update,
-                toUpdate,
+            affected += await _context.Connection.ExecuteAsync(RecipeIngredientSQL.DeleteByRecipeId,
+                new
+                {
+                    RecipeId = obj.Id,
+                },
                 _context.Transaction);
 
             affected += await _context.Connection.ExecuteAsync(RecipeIngredientSQL.Insert,
-                toAdd,
+                ingredients,
                 _context.Transaction);
-
 
             return affected;
         }
