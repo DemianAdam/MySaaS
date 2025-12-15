@@ -90,7 +90,7 @@ namespace MySaaS.Application.Services
             
         }
 
-        public async Task UpdateAsync(UpdateRecipeDTO obj)
+        public async Task<RecipeDTO> UpdateAsync(UpdateRecipeDTO obj)
         {
             Recipe recipe = obj.Map();
 
@@ -111,6 +111,7 @@ namespace MySaaS.Application.Services
 
                 await _recipeRepository.UpdateAsync(recipe);
                 transaction.Commit();
+                return recipe.Map();
             }
             catch (Exception)
             {

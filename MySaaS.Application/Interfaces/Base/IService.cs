@@ -5,6 +5,6 @@
         Task<IEnumerable<Tout>> GetAllAsync();
         Task<Tout> AddAsync(TCreate obj);
         Task RemoveAsync(int objId);
-        Task UpdateAsync(TUpdate obj);
+        Task<Tout> UpdateAsync(TUpdate obj);
     }
 }

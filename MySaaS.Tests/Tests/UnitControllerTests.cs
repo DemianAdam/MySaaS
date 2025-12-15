@@ -34,5 +34,32 @@ namespace MySaaS.Tests.Tests
             responseResult.Name.Should().Be("Test");
         }
 
+        [Fact]
+        public async Task CreateUnit_WhenInsertingUnitsWithSameName_ReturnsError() 
+        {
+            //arrange
+            HttpClient client = Factory.CreateClient();
+            CreateUnitDTO createUnitDTO = new CreateUnitDTO()
+            {
+                Name = "Test",
+            };
+
+            CreateUnitDTO createUnitDTO2 = new CreateUnitDTO()
+            {
+                Name = "Test",
+            };
+
+
+            //act
+            var response1 = await client.PostAsJsonAsync("/api/unit", createUnitDTO);
+            var response2 = await client.PostAsJsonAsync("/api/unit", createUnitDTO2);
+
+            //assert
+            response1.IsSuccessStatusCode.Should().BeTrue();
+            response2.IsSuccessStatusCode.Should().BeFalse();
+            
+
+        }
+
     }
 }

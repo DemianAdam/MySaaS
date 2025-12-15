@@ -43,7 +43,7 @@ namespace MySaaS.Application.Services
             }
         }
 
-        public async Task UpdateAsync(UpdateUnitDTO unity)
+        public async Task<UnitDTO> UpdateAsync(UpdateUnitDTO unity)
         {
             Unit entity = unity.Map();
             int affected = await _unityRepository.UpdateAsync(entity);
@@ -51,6 +51,7 @@ namespace MySaaS.Application.Services
             {
                 throw new NotFoundException<Unit>(unity.Id);
             }
+            return entity.Map();
         }
     }
 }
