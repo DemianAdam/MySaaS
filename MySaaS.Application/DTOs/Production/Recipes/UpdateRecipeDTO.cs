@@ -11,6 +11,6 @@ namespace MySaaS.Application.DTOs.Production.Recipes
         public required int Id { get; set; }
         public required string Name { get; set; }
         public string? Description { get; set; }
-        public required UpdateRecipeInfoDTO RecipeInfo { get; set; }
+        public required UpdateRecipeRelationsDTO RecipeInfo { get; set; }
     }
 }

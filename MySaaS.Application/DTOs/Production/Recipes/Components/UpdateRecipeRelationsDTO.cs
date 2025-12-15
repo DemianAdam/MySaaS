@@ -1,13 +1,10 @@
 ﻿using MySaaS.Application.DTOs.Common.Quantity;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace MySaaS.Application.DTOs.Production.Recipes.Components
 {
-    public class CreateRecipeInfoDTO
+    public class UpdateRecipeRelationsDTO
     {
-        public required List<CreateRecipeComponentDTO> Ingredients { get; set; }
+        public required List<UpdateRecipeComponentDTO> Ingredients { get; set; }
         public required CreateQuantityDTO Quantity { get; set; }
     }
 }

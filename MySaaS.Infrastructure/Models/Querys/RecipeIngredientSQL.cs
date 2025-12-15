@@ -76,6 +76,11 @@ namespace MySaaS.Infrastructure.Models.Querys
                 DELETE FROM recipe_ingredients
                 WHERE id = @Id
             """;
+        public const string DeleteByRecipeId =
+            """
+                DELETE FROM recipe_ingredints
+                WHERE id_recipe = @Id
+            """;
         #endregion
     }
 }

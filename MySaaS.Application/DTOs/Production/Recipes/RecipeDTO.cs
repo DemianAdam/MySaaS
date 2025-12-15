@@ -6,7 +6,7 @@ namespace MySaaS.Application.DTOs.Production.Recipes
 {
     public class RecipeDTO : ItemDTO
     {
-        public List<RecipeComponentDTO> Ingredients { get; set; } = new();
+        public List<RecipeComponentDTO>? Ingredients { get; set; }
         public required QuantityDTO Quantity { get; set; }
     }
 }
