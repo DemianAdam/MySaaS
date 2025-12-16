@@ -24,6 +24,14 @@ namespace MySaaS.Application.Services
 
         public async Task<UnitDTO> AddAsync(CreateUnitDTO unity)
         {
+            if(string.IsNullOrEmpty(unity.Name))
+            {
+                throw new ArgumentException("Unit name cannot be null or empty.", nameof(unity.Name));
+            }
+
+
+
+
             Unit entity = unity.Map();
             try
             {

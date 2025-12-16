@@ -75,7 +75,6 @@ namespace MySaaS.Tests.Tests
 
             //assert
             response2.IsSuccessStatusCode.Should().BeTrue();
-
         }
 
     }
