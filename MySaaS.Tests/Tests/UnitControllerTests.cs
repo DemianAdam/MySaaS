@@ -2,6 +2,7 @@
 using MySaaS.Tests.Factory;
 using System.Net.Http.Json;
 using FluentAssertions;
+using System.Net;
 
 namespace MySaaS.Tests.Tests
 {
@@ -60,7 +61,7 @@ namespace MySaaS.Tests.Tests
         }
 
         [Fact]
-        public async Task CreateUnit_WhenDeletingUnit_ReturnsSucess()
+        public async Task DeleteEndPoint_WhenDeletingUnit_ReturnsSucess()
         {
             //arrange
             HttpClient client = Factory.CreateClient();
@@ -76,6 +77,44 @@ namespace MySaaS.Tests.Tests
             //assert
             response2.IsSuccessStatusCode.Should().BeTrue();
         }
+
+        [Fact]
+        public async Task DeleteEndPoint_WhenDeletingUnitThatDoesNotExists_ReturnsNotFound()
+        {
+            //arrange
+            HttpClient client = Factory.CreateClient();
+            
+
+            //act
+
+            var response = await client.DeleteAsync("/api/unit/999");
+
+            //assert
+
+            response.IsSuccessStatusCode.Should().BeFalse();
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+
+        }
+
+        [Fact]
+        public async Task CreateEndPoint_WhenCreatingUnitWithoutName_ReturnsBadRequest()
+        {
+            //arrange
+            HttpClient client = Factory.CreateClient();
+            CreateUnitDTO createUnitDTO = new CreateUnitDTO()
+            {
+                Name = string.Empty,
+            };
+
+            //act
+            var response = await client.PostAsJsonAsync("/api/unit", createUnitDTO);
+
+            //assert
+            response.IsSuccessStatusCode.Should().BeFalse();
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+
 
     }
 }
