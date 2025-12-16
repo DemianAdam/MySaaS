@@ -1,4 +1,5 @@
-﻿using MySaaS.Application.DTOs.Common.Tenancy;
+﻿using Microsoft.Extensions.Configuration;
+using MySaaS.Application.DTOs.Common.Tenancy;
 using MySaaS.Application.Interfaces.Common.Tenancy;
 using System;
 using System.Collections.Generic;
@@ -8,12 +9,23 @@ namespace MySaaS.Tests.Mock
 {
     internal class MockTenantResolver : ITenantResolver
     {
+        private readonly IConfiguration _configuration;
+        public MockTenantResolver(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
         public Task<TenantInfo?> ResolveAsync(string tenantId)
         {
+            string? connectionString = _configuration["Tests:ConnectionString"];
+
+            if (connectionString is null)
+            {
+                throw new ArgumentNullException(nameof(connectionString), "Connection string for tests is not configured.");
+            }
             TenantInfo tenantInfo = new TenantInfo()
             {
                 TenantId = tenantId,
-                ConnectionString = "Host=localhost;Port=5432;Database=MySaaS_Tests;Username=postgres;Password=7441893a;"
+                ConnectionString = connectionString
             };
 
             return Task.FromResult(tenantInfo)!;
