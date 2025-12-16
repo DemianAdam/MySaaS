@@ -4,6 +4,7 @@
     {
         public static IServiceCollection AddExceptionHandlers(this IServiceCollection services)
         {
+            services.AddExceptionHandler<DuplicatedExceptionHandler>();
             services.AddExceptionHandler<NotFoundExceptionHandler>();
             services.AddExceptionHandler<GlobalExceptionHandler>();
             services.AddProblemDetails(config =>

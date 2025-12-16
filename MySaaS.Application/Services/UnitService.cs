@@ -5,6 +5,8 @@ using MySaaS.Domain.Entities.Common;
 using MySaaS.Domain.Exceptions.Common;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,8 +25,21 @@ namespace MySaaS.Application.Services
         public async Task<UnitDTO> AddAsync(CreateUnitDTO unity)
         {
             Unit entity = unity.Map();
-            int id = await _unityRepository.AddAsync(entity);
-            entity.Id = id;
+            try
+            {
+                int id = await _unityRepository.AddAsync(entity);
+                entity.Id = id;
+            }
+            catch (DbException ex) when (ex.SqlState == "23505")
+            {
+                throw new DuplicatedException("name", entity.Name);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+
             return entity.Map();
         }
 
