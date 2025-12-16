@@ -10,6 +10,6 @@ namespace MySaaS.Application.DTOs.Products
     {
         public required decimal Price { get; set; }
         public RecipeDTO? Recipe { get; set; }
-        public List<int> CategoriesId { get; set; }
+        public List<int>? CategoriesId { get; set; }
     }
 }

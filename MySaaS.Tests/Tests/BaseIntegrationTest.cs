@@ -10,41 +10,17 @@ namespace MySaaS.Tests.Tests
 {
     public abstract class BaseIntegrationTest : IClassFixture<WebApiFactory>, IAsyncLifetime
     {
-        private readonly WebApiFactory _factory;
-
-        public WebApiFactory Factory { get => _factory; }
+        protected WebApiFactory Factory { get; }
 
         public BaseIntegrationTest(WebApiFactory factory)
         {
-            _factory = factory;
+            Factory = factory;
         }
         public Task DisposeAsync() => Task.CompletedTask;
 
         public async Task InitializeAsync()
         {
-            _factory.CreateClient();
-
-            using var connection = new NpgsqlConnection(_factory.ConnectionString);
-            await connection.OpenAsync();
-            string sql =
-                """
-                    DO
-                    $$
-                    DECLARE
-                        stmt TEXT;
-                    BEGIN
-                        SELECT 'TRUNCATE TABLE ' ||
-                               string_agg(format('%I.%I', schemaname, tablename), ', ') ||
-                               ' RESTART IDENTITY CASCADE;'
-                        INTO stmt
-                        FROM pg_tables
-                        WHERE schemaname NOT IN ('pg_catalog', 'information_schema');
-
-                        EXECUTE stmt;
-                    END
-                    $$;
-                """;
-            await connection.ExecuteAsync(sql);
+            await Factory.ResetDatabaseAsync();
         }
     }
 }

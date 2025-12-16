@@ -34,12 +34,17 @@ namespace MySaaS.Application.Mappers
                 Name = recipeDTO.Name,
                 Description = recipeDTO.Description
             };
-            Recipe recipe = new Recipe(recipeDTO.Ingredients.Map())
+
+            Recipe recipe = new Recipe()
             {
                 Id = recipeDTO.Id,
                 Item = item,
                 Quantity = recipeDTO.Quantity.Map(),
             };
+            if (recipeDTO.Ingredients is not null)
+            {
+                recipe.UpdateComponents(recipeDTO.Ingredients.Map());
+            }
 
             return recipe;
         }

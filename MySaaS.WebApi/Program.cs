@@ -1,5 +1,6 @@
 using MySaaS.Application;
 using MySaaS.Infrastructure;
+using MySaaS.WebApi.Exceptions;
 using MySaaS.WebApi.Middlewares;
 using Scalar.AspNetCore;
 using Serilog;
@@ -15,6 +16,7 @@ internal class Program
         // Add services to the container.
         builder.Services.AddInfrastructure(builder.Configuration);
         builder.Services.AddApplication();
+        builder.Services.AddExceptionHandlers();
 
         builder.Services.AddControllers();
         // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
@@ -38,6 +40,7 @@ internal class Program
         app.UseHttpsRedirection();
 
         //Middleware para la resolución del tenant
+        app.UseExceptionHandler();
         app.UseMiddleware<TenantResolutionMiddleware>();
 
         app.UseAuthorization();

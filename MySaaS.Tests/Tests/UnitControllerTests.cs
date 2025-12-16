@@ -57,8 +57,6 @@ namespace MySaaS.Tests.Tests
             //assert
             response1.IsSuccessStatusCode.Should().BeTrue();
             response2.IsSuccessStatusCode.Should().BeFalse();
-            
-
         }
 
         [Fact]
