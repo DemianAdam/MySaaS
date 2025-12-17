@@ -7,7 +7,6 @@ using System.Text;
 
 namespace MySaaS.Application.Interfaces.Common.Unities
 {
-    //TODO: Change last type parameter for UnitConversionResponse when implemented
     public interface IUnitConversionService : IService<UnitConversionDTO, CreateUnitConversionDTO, UpdateUnitConversionDTO, UnitConversionResponse>
     {
     }

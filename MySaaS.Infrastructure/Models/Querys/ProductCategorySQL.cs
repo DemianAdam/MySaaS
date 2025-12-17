@@ -16,5 +16,13 @@ namespace MySaaS.Infrastructure.Models.Querys
                     FROM product_categories_link
                     LEFT JOIN product_categories ON product_categories.id = product_categories_link.product_category_id
                 """;
+
+        public const string Insert =
+                $"""
+                    INSERT INTO product_categories_link
+                    (product_id, product_category_id)
+                    VALUES
+                    (@Product_Id, @ProductCategoryId);
+                """;
     }
 }
