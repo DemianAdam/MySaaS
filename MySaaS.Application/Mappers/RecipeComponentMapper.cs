@@ -1,4 +1,5 @@
 ﻿using MySaaS.Application.DTOs.Production.Recipes.Components;
+using MySaaS.Application.DTOs.Production.Recipes.Relations;
 using MySaaS.Domain.Entities;
 using MySaaS.Domain.Entities.Production;
 using MySaaS.Domain.Entities.Production.Recipes;
@@ -53,6 +54,21 @@ namespace MySaaS.Application.Mappers
                 Waste = updateRecipeComponentDTO.Waste.Map(),
                 Weight = updateRecipeComponentDTO.Weight.Map(),
             };
+        }
+
+        public static RecipeRelationsResponse ToResponse(this RecipeComponent recipeComponent)
+        {
+            return new RecipeRelationsResponse
+            {
+                IngredientId = recipeComponent.Ingredient.ItemId,
+                Weight = recipeComponent.Weight.ToResponse(),
+                Waste = recipeComponent.Waste.ToResponse()
+            };
+        }
+
+        public static IEnumerable<RecipeRelationsResponse> ToResponse(this IEnumerable<RecipeComponent> recipeComponents)
+        {
+            return recipeComponents.Select(ToResponse);
         }
         public static IEnumerable<RecipeComponentDTO> Map(this IEnumerable<RecipeComponent> recipeComponents)
         {

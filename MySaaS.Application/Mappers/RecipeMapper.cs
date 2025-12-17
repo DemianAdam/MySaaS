@@ -14,7 +14,7 @@ namespace MySaaS.Application.Mappers
     {
         public static RecipeDTO Map(this Recipe recipe)
         {
-            if(recipe.Item is null)
+            if (recipe.Item is null)
             {
                 throw new ArgumentNullException(nameof(recipe.Item), "Item property cannot be null when mapping Recipe to RecipeDTO.");
             }
@@ -22,6 +22,7 @@ namespace MySaaS.Application.Mappers
             {
                 Id = recipe.Id,
                 Name = recipe.Item.Name,
+                Description = recipe.Item.Description,
                 Ingredients = recipe.Ingredients.Map().ToList(),
                 Quantity = recipe.Quantity.Map(),
             };
@@ -29,22 +30,18 @@ namespace MySaaS.Application.Mappers
         public static Recipe Map(this RecipeDTO recipeDTO)
         {
             Item item = new Item()
-            { 
+            {
                 Id = recipeDTO.Id,
                 Name = recipeDTO.Name,
                 Description = recipeDTO.Description
             };
 
-            Recipe recipe = new Recipe()
+            Recipe recipe = new Recipe(recipeDTO.Ingredients.Map())
             {
                 Id = recipeDTO.Id,
                 Item = item,
                 Quantity = recipeDTO.Quantity.Map(),
             };
-            if (recipeDTO.Ingredients is not null)
-            {
-                recipe.UpdateComponents(recipeDTO.Ingredients.Map());
-            }
 
             return recipe;
         }
@@ -83,6 +80,22 @@ namespace MySaaS.Application.Mappers
             return recipe;
         }
 
+        public static RecipeResponse ToResponse(this Recipe recipe)
+        {
+            if (recipe.Item is null)
+            {
+                throw new ArgumentNullException(nameof(recipe.Item), "Item property cannot be null when mapping Recipe to RecipeResponse.");
+            }
+            return new RecipeResponse
+            {
+                Id = recipe.Id,
+                Name = recipe.Item.Name,
+                Description = recipe.Item.Description,
+                Ingredients = recipe.Ingredients.ToResponse().ToList(),
+                UnitId = recipe.Quantity.UnitId,
+                Amount = recipe.Quantity.Amount
+            };
+        }
         public static IEnumerable<RecipeDTO> Map(this IEnumerable<Recipe> recipes)
         {
             return recipes.Select(recipe => recipe.Map());

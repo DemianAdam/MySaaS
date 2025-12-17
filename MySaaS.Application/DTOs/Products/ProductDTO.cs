@@ -1,5 +1,6 @@
 ﻿using MySaaS.Application.DTOs.Common.Items;
 using MySaaS.Application.DTOs.Production.Recipes;
+using MySaaS.Application.DTOs.Products.Category;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,6 +11,6 @@ namespace MySaaS.Application.DTOs.Products
     {
         public required decimal Price { get; set; }
         public RecipeDTO? Recipe { get; set; }
-        public List<int>? CategoriesId { get; set; }
+        public List<CategoryDTO>? Categories { get; set; }
     }
 }

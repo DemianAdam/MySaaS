@@ -10,7 +10,7 @@ namespace MySaaS.Infrastructure.Models.Querys
         #region Query
         private const string SelectColumns =
                 $"""
-                    recipe_ingredients.id AS {nameof(RecipeIngredientModel.Id)}
+                    recipe_ingredients.id AS {nameof(RecipeIngredientModel.Id)},
                     recipe_ingredients.id_recipe AS {nameof(RecipeIngredientModel.RecipeItemId)},
                     recipe_ingredients.id_ingredient AS {nameof(RecipeIngredientModel.IngredientItemId)},
                     items.name AS {nameof(RecipeIngredientModel.IngredientItemName)},

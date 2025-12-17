@@ -91,5 +91,20 @@ namespace MySaaS.Application.Mappers
             };
         }
 
+        public static ProductResponse ToResponse(this Product product)
+        {
+            if (product.Item is null)
+            {
+                throw new ArgumentNullException(nameof(product.Item), "Product's Item property cannot be null when mapping to ProductResponse.");
+            }
+            return new ProductResponse
+            {
+                Id = product.ItemId,
+                Name = product.Item.Name,
+                Description = product.Item.Description,
+                Price = product.Price,
+                CategoriesId = product.Categories?.Select(c => c.Id).ToList()
+            };
+        }
     }
 }

@@ -3,7 +3,7 @@ using MySaaS.Application.Interfaces.Base;
 
 namespace MySaaS.Application.Interfaces.Production.Ingredients
 {
-    public interface IIngredientService : IService<IngredientDTO, CreateIngredientDTO, UpdateIngredientDTO>
+    public interface IIngredientService : IService<IngredientDTO, CreateIngredientDTO, UpdateIngredientDTO, IngredientResponse>
     {
     }
 }
