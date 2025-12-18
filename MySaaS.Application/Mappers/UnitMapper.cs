@@ -1,4 +1,5 @@
-﻿using MySaaS.Application.DTOs.Common.Unities;
+﻿using MySaaS.Application.DTOs.Common.Unit;
+using MySaaS.Application.DTOs.Common.Unities;
 using MySaaS.Application.Interfaces.Common;
 using MySaaS.Domain.Entities.Common;
 using System;
@@ -47,6 +48,14 @@ namespace MySaaS.Application.Mappers
             };
         }
 
+        public static UnitResponse ToResponse(this Unit unit)
+        {
+            return new UnitResponse
+            {
+                Id = unit.Id,
+                Name = unit.Name
+            };
+        }
         public static IEnumerable<UnitDTO> Map(this IEnumerable<Unit> unities)
         {
             return unities.Select(x => x.Map());

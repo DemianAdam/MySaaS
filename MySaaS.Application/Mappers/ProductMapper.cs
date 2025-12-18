@@ -18,7 +18,7 @@ namespace MySaaS.Application.Mappers
                 Description = productDTO.Description
             };
 
-            return new Product
+            return new Product(productDTO.ProductComponents?.Map())
             {
                 ItemId = item.Id,
                 Item = item,
@@ -39,7 +39,8 @@ namespace MySaaS.Application.Mappers
                 Name = product.Item.Name,
                 Description = product.Item.Description,
                 Price = product.Price,
-                Recipe = product.Recipe?.Map()
+                Recipe = product.Recipe?.Map(),
+                ProductComponents = product.ProductComponents?.Map().ToList()
             };
         }
 
@@ -61,9 +62,7 @@ namespace MySaaS.Application.Mappers
                 Description = createProductDTO.Description
             };
 
-            //TODO: Fix
-            //return new Product(createProductDTO.Categories?.Map())
-            return new Product()
+            return new Product(createProductDTO.ProductComponents?.Map())
             {
                 ItemId = item.Id,
                 Item = item,
@@ -80,9 +79,8 @@ namespace MySaaS.Application.Mappers
                 Name = updateProductDTO.Name,
                 Description = updateProductDTO.Description
             };
-            //TODO: Fix
-            //return new Product(updateProductDTO.Categories?.Map())
-            return new Product()
+
+            return new Product(updateProductDTO.ProductComponents?.Map())           
             {
                 ItemId = item.Id,
                 Item = item,
@@ -91,5 +89,20 @@ namespace MySaaS.Application.Mappers
             };
         }
 
+        public static ProductResponse ToResponse(this Product product)
+        {
+            if (product.Item is null)
+            {
+                throw new ArgumentNullException(nameof(product.Item), "Product's Item property cannot be null when mapping to ProductResponse.");
+            }
+            return new ProductResponse
+            {
+                Id = product.ItemId,
+                Name = product.Item.Name,
+                Description = product.Item.Description,
+                Price = product.Price,
+                CategoriesId = product.ProductComponents?.Select(c => c.Id).ToList()
+            };
+        }
     }
 }

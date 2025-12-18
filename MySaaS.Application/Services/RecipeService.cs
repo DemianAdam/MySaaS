@@ -24,10 +24,10 @@ namespace MySaaS.Application.Services
             _itemRepository = itemRepository;
             _unitOfWork = unitOfWork;
         }
-        public async Task<RecipeDTO> AddAsync(CreateRecipeDTO obj)
+        public async Task<RecipeResponse> AddAsync(CreateRecipeDTO obj)
         {
             Recipe recipe = obj.Map();
-            if(recipe.Item is null)
+            if (recipe.Item is null)
             {
                 throw new ArgumentException("Recipe must have an associated Item.");
             }
@@ -40,7 +40,9 @@ namespace MySaaS.Application.Services
 
                 int recipeId = await _recipeRepository.AddAsync(recipe);
                 _unitOfWork.Commit();
-                return recipe.Map();
+               
+
+                return recipe.ToResponse();
             }
             catch
             {
@@ -51,6 +53,8 @@ namespace MySaaS.Application.Services
             {
                 _unitOfWork.Dispose();
             }
+
+            
         }
 
         public async Task<IEnumerable<RecipeDTO>> GetAllAsync()
@@ -80,17 +84,17 @@ namespace MySaaS.Application.Services
             }
             catch
             {
-                _unitOfWork.Rollback(); 
+                _unitOfWork.Rollback();
                 throw;
             }
             finally
             {
                 _unitOfWork.Dispose();
             }
-            
+
         }
 
-        public async Task<RecipeDTO> UpdateAsync(UpdateRecipeDTO obj)
+        public async Task<RecipeResponse> UpdateAsync(UpdateRecipeDTO obj)
         {
             Recipe recipe = obj.Map();
 
@@ -111,7 +115,7 @@ namespace MySaaS.Application.Services
 
                 await _recipeRepository.UpdateAsync(recipe);
                 transaction.Commit();
-                return recipe.Map();
+                return recipe.ToResponse();
             }
             catch (Exception)
             {

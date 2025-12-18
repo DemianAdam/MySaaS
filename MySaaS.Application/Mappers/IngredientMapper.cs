@@ -1,4 +1,5 @@
 ﻿using MySaaS.Application.DTOs.Production.Ingredients;
+using MySaaS.Application.DTOs.Production.Recipes;
 using MySaaS.Domain.Entities.Common;
 using MySaaS.Domain.Entities.Production;
 using MySaaS.Domain.Entities.Production.Recipes;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace MySaaS.Application.Mappers
 {
-    internal static class IngredientMapper
+    public static class IngredientMapper
     {
         public static IngredientDTO Map(this Ingredient ingredient)
         {
@@ -89,6 +90,31 @@ namespace MySaaS.Application.Mappers
             };
         }
 
+        public static IngredientDTO Map(this CreateIngredientDTO createIngredientDTO, int id, RecipeDTO? recipe)
+        {
+            return new IngredientDTO
+            {
+                Id = id,
+                Name = createIngredientDTO.Name,
+                Description = createIngredientDTO.Description,
+                Recipe = recipe
+            };
+        }
+
+        public static IngredientResponse ToResponse(this Ingredient ingredient)
+        {
+            if (ingredient.Item is null)
+            {
+                throw new ArgumentNullException(nameof(ingredient.Item), "Item property cannot be null when mapping Ingredient to IngredientResponse.");
+            }
+
+            return new IngredientResponse
+            {
+                Id = ingredient.ItemId,
+                Name = ingredient.Item.Name,
+                Description = ingredient.Item.Description
+            };
+        }
         public static IEnumerable<IngredientDTO> Map(this IEnumerable<Ingredient> ingredients)
         {
             return ingredients.Select(ingredient => ingredient.Map());

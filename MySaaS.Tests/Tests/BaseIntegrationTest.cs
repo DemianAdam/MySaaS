@@ -8,6 +8,7 @@ using System.Text;
 
 namespace MySaaS.Tests.Tests
 {
+    [Collection("IntegrationTests")]
     public abstract class BaseIntegrationTest : IClassFixture<WebApiFactory>, IAsyncLifetime
     {
         protected WebApiFactory Factory { get; }

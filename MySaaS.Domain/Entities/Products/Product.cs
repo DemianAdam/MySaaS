@@ -10,10 +10,10 @@ namespace MySaaS.Domain.Entities.Products
         public required decimal Price { get; set; }
         public int? RecipeId { get; set; }
         public Recipe? Recipe { get; set; }
-        private List<Category> _categories = new();
-        public IReadOnlyCollection<Category>? Categories => _categories;
+        private List<ProductComponent> _components = new();
+        public IReadOnlyCollection<ProductComponent>? ProductComponents => _components;
 
-        public Product(IEnumerable<Category>? categories)
+        public Product(IEnumerable<ProductComponent>? categories)
         {
             UpdateCategories(categories);
         }
@@ -22,7 +22,7 @@ namespace MySaaS.Domain.Entities.Products
             
         }
 
-        public void UpdateCategories(IEnumerable<Category>? categories)
+        public void UpdateCategories(IEnumerable<ProductComponent>? categories)
         {
             if(categories is null)
             {
@@ -34,10 +34,10 @@ namespace MySaaS.Domain.Entities.Products
             }
         }
 
-        public void AddCategory(Category category)
+        public void AddCategory(ProductComponent category)
         {
             //TODO: Validate
-            _categories.Add(category);
+            _components.Add(category);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using MySaaS.Application.DTOs.Common.UnitConversions;
+﻿using MySaaS.Application.DTOs.Common.UnitConversion;
+using MySaaS.Application.DTOs.Common.UnitConversions;
 using MySaaS.Application.Interfaces.Common;
 using MySaaS.Application.Interfaces.Common.Unities;
 using MySaaS.Application.Mappers;
@@ -18,13 +19,13 @@ namespace MySaaS.Application.Services
         {
             _unitConversionRepository = unitConversionRepository;
         }
-        public async Task<UnitConversionDTO> AddAsync(CreateUnitConversionDTO obj)
+        public async Task<UnitConversionResponse> AddAsync(CreateUnitConversionDTO obj)
         {
             UnitConversion unitConversion = obj.Map();
 
             int id = await _unitConversionRepository.AddAsync(unitConversion);
             unitConversion.Id = id;
-            return unitConversion.Map();
+            return unitConversion.ToResponse();
         }
 
 
@@ -44,7 +45,7 @@ namespace MySaaS.Application.Services
         }
 
 
-        public async Task<UnitConversionDTO> UpdateAsync(UpdateUnitConversionDTO obj)
+        public async Task<UnitConversionResponse> UpdateAsync(UpdateUnitConversionDTO obj)
         {
             UnitConversion unitConversion = obj.Map();
             int affected = await _unitConversionRepository.UpdateAsync(unitConversion);
@@ -52,7 +53,7 @@ namespace MySaaS.Application.Services
             {
                 throw new NotFoundException<UnitConversion>(obj.Id);
             }
-            return unitConversion.Map();
+            return unitConversion.ToResponse();
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace MySaaS.Application.Interfaces.Products.Products
 {
-    public interface IProductService : IService<ProductDTO, CreateProductDTO, UpdateProductDTO>
+    public interface IProductService : IService<ProductDTO, CreateProductDTO, UpdateProductDTO,ProductResponse>
     {
     }
 }

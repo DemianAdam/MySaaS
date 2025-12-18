@@ -1,10 +1,10 @@
 ﻿namespace MySaaS.Application.Interfaces.Base
 {
-    public interface IService<Tout,TCreate,TUpdate>
+    public interface IService<Tout,TCreate,TUpdate,TResponse> where TResponse : IResponse
     {
         Task<IEnumerable<Tout>> GetAllAsync();
-        Task<Tout> AddAsync(TCreate obj);
+        Task<TResponse> AddAsync(TCreate obj);
         Task RemoveAsync(int objId);
-        Task<Tout> UpdateAsync(TUpdate obj);
+        Task<TResponse> UpdateAsync(TUpdate obj);
     }
 }

@@ -23,6 +23,19 @@ namespace MySaaS.Application.Mappers
                 Name = createCategoryDTO.Name,
             };
         }
+        public static CategoryDTO Map(this Category category)
+        {
+            if(category.Name is null)
+            {
+                throw new ArgumentNullException(nameof(category.Name), "Category name cannot be null");
+            }
+
+            return new CategoryDTO()
+            {
+                Id = category.Id,
+                Name = category.Name,
+            };
+        }
 
         public static IEnumerable<Category> Map(this IEnumerable<CategoryDTO> categoryDTOs)
         {

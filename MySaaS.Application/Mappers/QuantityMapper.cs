@@ -38,6 +38,15 @@ namespace MySaaS.Application.Mappers
             };
         }
 
+        public static QuantityResponse ToResponse(this Quantity quantity)
+        {
+            return new QuantityResponse
+            {
+                UnitId = quantity.UnitId,
+                Amount = quantity.Amount
+            };
+        }
+
         public static IEnumerable<QuantityDTO> Map(this IEnumerable<Quantity> quantities)
         {
             return quantities.Select(quantity => quantity.Map());

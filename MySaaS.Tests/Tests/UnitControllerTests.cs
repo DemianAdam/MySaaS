@@ -1,11 +1,16 @@
-﻿using MySaaS.Application.DTOs.Common.Unities;
+﻿using FluentAssertions;
+using MySaaS.Application.DTOs.Common.Unit;
+using MySaaS.Application.DTOs.Common.Unities;
+using MySaaS.Application.DTOs.Production.Recipes;
+using MySaaS.Application.DTOs.Production.Recipes.Components;
 using MySaaS.Tests.Factory;
-using System.Net.Http.Json;
-using FluentAssertions;
+using System.Linq;
 using System.Net;
+using System.Net.Http.Json;
 
 namespace MySaaS.Tests.Tests
 {
+    [Collection("IntegrationTests")]
     public class UnitControllerTests : BaseIntegrationTest
     {
         public UnitControllerTests(WebApiFactory factory) : base(factory)
@@ -27,10 +32,11 @@ namespace MySaaS.Tests.Tests
 
             //Assert
             response.IsSuccessStatusCode.Should().BeTrue();
-            var responseResult = await response.Content.ReadFromJsonAsync<UnitDTO>();
+
+            UnitResponse? responseResult = await response.Content.ReadFromJsonAsync<UnitResponse>();
+
 
             responseResult.Should().NotBeNull();
-
             responseResult.Id.Should().Be(1);
             responseResult.Name.Should().Be("Test");
         }
@@ -70,13 +76,12 @@ namespace MySaaS.Tests.Tests
 
             //act
 
-            var createdUnit = await response.Content.ReadFromJsonAsync<UnitDTO>();
+            var createdUnit = await response.Content.ReadFromJsonAsync<UnitResponse>();
 
             var response2 = await client.DeleteAsync("/api/unit/" + createdUnit!.Id);
 
             //assert
             response2.IsSuccessStatusCode.Should().BeTrue();
-
         }
 
         [Fact]
@@ -114,8 +119,5 @@ namespace MySaaS.Tests.Tests
             response.IsSuccessStatusCode.Should().BeFalse();
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
-
-
-
     }
 }

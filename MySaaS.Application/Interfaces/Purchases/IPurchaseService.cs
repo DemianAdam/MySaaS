@@ -8,7 +8,7 @@ using System.Text;
 namespace MySaaS.Application.Interfaces.Purchases
 {
     //TODO: fix last type parameter
-    public interface IPurchaseService : IService<PurchaseDTO,CreatePurchaseDTO, UpdateProductDTO>
+    public interface IPurchaseService : IService<PurchaseDTO,CreatePurchaseDTO, UpdateProductDTO,ProductResponse>
     {
     }
 }

@@ -8,16 +8,22 @@ namespace MySaaS.Infrastructure.Mappers
 {
     internal static class ProductCategoryMapper
     {
-        public static Category Map(this ProductCategoryModel productCategoryModel)
+        public static ProductComponent Map(this ProductCategoryModel productCategoryModel)
         {
-            return new Category()
+            Category category = new Category()
             {
                 Id = productCategoryModel.CategoryId,
                 Name = productCategoryModel.CategoryName
             };
+            return new ProductComponent()
+            {
+                Id = productCategoryModel.Id,
+                CategoryId = category.Id,
+                Category = category
+            };
         }
 
-        public static IEnumerable<Category> Map(this IEnumerable<ProductCategoryModel> productCategoryModels)
+        public static IEnumerable<ProductComponent> Map(this IEnumerable<ProductCategoryModel> productCategoryModels)
         {
             return productCategoryModels.Select(x => x.Map());
         }

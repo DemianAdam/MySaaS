@@ -21,7 +21,7 @@ namespace MySaaS.WebApi.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateIngredientDTO ingredientDto)
         {
-            IngredientDTO result;
+            IngredientResponse result;
             try
             {
                 result = await _service.AddAsync(ingredientDto);

@@ -1,6 +1,7 @@
 ﻿using MySaaS.Application.DTOs.Common.Quantity;
+using MySaaS.Application.DTOs.Production.Recipes.Components;
 
-namespace MySaaS.Application.DTOs.Production.Recipes.Components
+namespace MySaaS.Application.DTOs.Production.Recipes.Relations
 {
     public class UpdateRecipeRelationsDTO
     {

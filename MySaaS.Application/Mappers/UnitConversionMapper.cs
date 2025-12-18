@@ -1,4 +1,5 @@
-﻿using MySaaS.Application.DTOs.Common.UnitConversions;
+﻿using MySaaS.Application.DTOs.Common.UnitConversion;
+using MySaaS.Application.DTOs.Common.UnitConversions;
 using MySaaS.Domain.Entities.Common;
 using System;
 using System.Collections.Generic;
@@ -66,6 +67,17 @@ namespace MySaaS.Application.Mappers
             };
         }
 
+        public static UnitConversionResponse ToResponse(this UnitConversion unitConversion)
+        {
+            return new UnitConversionResponse
+            {
+                Id = unitConversion.Id,
+                ItemId = unitConversion.ItemId,
+                FromUnitId = unitConversion.FromUnitId,
+                ToUnitId = unitConversion.ToUnitId,
+                ConversionFactor = unitConversion.ConversionFactor,
+            };
+        }
         public static IEnumerable<UnitConversionDTO> Map(this IEnumerable<UnitConversion> unitConversions)
         {
             return unitConversions.Select(uc => uc.Map());
