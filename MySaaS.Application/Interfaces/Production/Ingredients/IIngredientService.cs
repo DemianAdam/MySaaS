@@ -5,5 +5,6 @@ namespace MySaaS.Application.Interfaces.Production.Ingredients
 {
     public interface IIngredientService : IService<IngredientDTO, CreateIngredientDTO, UpdateIngredientDTO, IngredientResponse>
     {
+        public Task<IngredientDTO?> GetByIdAsync(int id);
     }
 }

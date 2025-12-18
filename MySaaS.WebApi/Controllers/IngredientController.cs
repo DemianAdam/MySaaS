@@ -57,5 +57,16 @@ namespace MySaaS.WebApi.Controllers
 
             return Ok();
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById([FromRoute] int id)
+        {
+            var ingredient = await _service.GetByIdAsync(id);
+            if (ingredient == null)
+            {
+                return NotFound();
+            }
+            return Ok(ingredient);
+        }
     }
 }
