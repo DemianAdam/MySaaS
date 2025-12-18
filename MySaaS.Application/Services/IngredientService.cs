@@ -78,6 +78,13 @@ namespace MySaaS.Application.Services
             return ingredients.Map();
         }
 
+        public async Task<IngredientDTO?> GetByIdAsync(int id)
+        {
+            var ingredient = await _ingredientRepository.GetByIdAsync(id);
+
+            return ingredient?.Map();
+        }
+
         public async Task RemoveAsync(int objId)
         {
             _unitOfWork.BeginTransaction();
