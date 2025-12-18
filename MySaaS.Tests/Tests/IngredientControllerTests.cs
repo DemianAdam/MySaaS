@@ -20,17 +20,6 @@ namespace MySaaS.Tests.Tests
         {
         }
 
-        [Fact]
-
-        public async Task PlaceholderTest_WhenCalled_PerformsNoAction()
-        {
-            // Arrange
-            HttpClient client = Factory.CreateClient();
-            // Act
-            // (No action performed in this placeholder test)
-            // Assert
-            // (No assertions in this placeholder test)
-        }
 
         [Fact]
         public async Task CreateIngredient_WhenCalledWithValidData_ReturnsCreated()
@@ -95,11 +84,13 @@ namespace MySaaS.Tests.Tests
             //Act
 
             HttpResponseMessage rellenoResponse = await client.PostAsJsonAsync("/api/ingredient", rellenoDeChocolate);
-            IngredientResponse? rellenoIngredientResponse = await rellenoResponse.Content.ReadFromJsonAsync<IngredientResponse>();
-            int idRellenoIngredient = rellenoIngredientResponse!.Id;
+            
 
             //Assert
+            rellenoResponse.IsSuccessStatusCode.Should().BeTrue(); // No olvidarse
 
+            IngredientResponse? rellenoIngredientResponse = await rellenoResponse.Content.ReadFromJsonAsync<IngredientResponse>();
+            int idRellenoIngredient = rellenoIngredientResponse!.Id;
             HttpResponseMessage getRellenoResponse = await client.GetAsync($"/api/ingredient/{idRellenoIngredient}");
             IngredientDTO? getRellenoIngredientResponse = await getRellenoResponse.Content.ReadFromJsonAsync<IngredientDTO>();
 
