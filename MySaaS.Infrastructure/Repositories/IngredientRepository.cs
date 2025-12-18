@@ -50,11 +50,19 @@ namespace MySaaS.Infrastructure.Repositories
 
         public async Task<Ingredient?> GetByIdAsync(int objId)
         {
-            //TODO: maybe add recursive ingredient fetching?
-            var result = await _context.Connection.QueryAsync<IngredientModel>(IngredientSQL.SelectById,
-             _context.Transaction);
-
-            return result.FirstOrDefault()?.Map();
+            //TODO: add recursive ingredient fetching
+            Ingredient? ingredient;
+            using (var multiple = await _context.Connection.QueryMultipleAsync(IngredientSQL.SelectByIdWithIngredient, new { Id = objId }, _context.Transaction))
+            {
+                ingredient = (await multiple.ReadAsync<IngredientModel>()).FirstOrDefault()?.Map();
+                if(ingredient is not null && ingredient.Recipe is not null)
+                {
+                    var components = (await multiple.ReadAsync<RecipeIngredientModel>()).Map().ToList();
+                    ingredient.Recipe.UpdateComponents(components);
+                }
+                
+            }
+            return ingredient;
         }
 
         public async Task<int> RemoveAsync(int objId)

@@ -1,13 +1,14 @@
-﻿using MySaaS.Application.Mappers;
-using Microsoft.Extensions.Logging;
-using MySaaS.Domain.Exceptions.Common;
-using MySaaS.Domain.Entities.Common;
-using MySaaS.Domain.Entities.Production;
+﻿using Microsoft.Extensions.Logging;
 using MySaaS.Application.DTOs.Production.Ingredients;
-using MySaaS.Application.Interfaces.Common.Items;
 using MySaaS.Application.Interfaces.Base;
+using MySaaS.Application.Interfaces.Common.Items;
 using MySaaS.Application.Interfaces.Production.Ingredients;
 using MySaaS.Application.Interfaces.Production.Recipes;
+using MySaaS.Application.Mappers;
+using MySaaS.Domain.Entities.Common;
+using MySaaS.Domain.Entities.Production;
+using MySaaS.Domain.Entities.Production.Recipes;
+using MySaaS.Domain.Exceptions.Common;
 
 
 namespace MySaaS.Application.Services
@@ -50,8 +51,14 @@ namespace MySaaS.Application.Services
 
                 if (ingredient.Recipe is not null)
                 {
-                    int recipeId = await _recipeRepository.AddAsync(ingredient.Recipe);
+                    if(ingredient.Recipe.Item is null)
+                    {
+                        throw new ArgumentException("Recipe must have an associated Item.");
+                    }
+
+                    int recipeId = await _itemRepository.AddAsync(ingredient.Recipe.Item);
                     ingredient.Recipe.Id = recipeId;
+                    recipeId = await _recipeRepository.AddAsync(ingredient.Recipe);
                 }
 
                 int ingredientId = await _ingredientRepository.AddAsync(ingredient);

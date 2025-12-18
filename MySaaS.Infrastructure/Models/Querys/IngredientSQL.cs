@@ -51,7 +51,19 @@ namespace MySaaS.Infrastructure.Models.Querys
         public const string SelectById =
             $"""
                 {Select}
-                WHERE i.id_item = @Id
+                WHERE ingredients.id_item = @Id
+            """;
+
+        public const string SelectByIdWithIngredient =
+            $"""
+                {SelectById};
+
+                {RecipeIngredientSQL.Select}
+                   WHERE recipe_ingredients.id_recipe = (
+                       SELECT ingredients.id_recipe
+                       FROM ingredients
+                       WHERE ingredients.id_item = @Id
+                       );
             """;
         public const string Exists =
             """
