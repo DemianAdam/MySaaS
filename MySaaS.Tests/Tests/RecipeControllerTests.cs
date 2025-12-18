@@ -4,6 +4,7 @@ using MySaaS.Application.DTOs.Common.Unities;
 using MySaaS.Application.DTOs.Production.Ingredients;
 using MySaaS.Application.DTOs.Production.Recipes;
 using MySaaS.Application.DTOs.Production.Recipes.Components;
+using MySaaS.Application.DTOs.Production.Recipes.Relations;
 using MySaaS.Tests.Factory;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ using System.Text;
 
 namespace MySaaS.Tests.Tests
 {
+    [Collection("IntegrationTests")]
     public class RecipeControllerTests : BaseIntegrationTest
     {
         public RecipeControllerTests(WebApiFactory factory) : base(factory)
@@ -24,8 +26,6 @@ namespace MySaaS.Tests.Tests
         public async Task CreateRecipe_WhenCalledWithValidData_ReturnsCreated()
         {
             //Arrange
-
-
             HttpClient client = Factory.CreateClient();
 
             CreateUnitDTO createUnitDTO = new CreateUnitDTO()
@@ -84,7 +84,7 @@ namespace MySaaS.Tests.Tests
 
             //Assert
 
-            RecipeDTO? recipeDTOResponse = await responseRecipe.Content.ReadFromJsonAsync<RecipeDTO>();
+            RecipeResponse? recipeDTOResponse = await responseRecipe.Content.ReadFromJsonAsync<RecipeResponse>();
             recipeDTOResponse.Should().NotBeNull();
             recipeDTOResponse.Name.Should().Be(createRecipeDTO.Name);
             recipeDTOResponse.Description.Should().Be(createRecipeDTO.Description);
@@ -92,19 +92,19 @@ namespace MySaaS.Tests.Tests
 
             recipeDTOResponse.Ingredients!.Count.Should().Be(createRecipeDTO.RecipeInfo.Ingredients.Count);
 
-            RecipeComponentDTO? ingredient = recipeDTOResponse.Ingredients.FirstOrDefault();
+            RecipeRelationsResponse? ingredient = recipeDTOResponse.Ingredients.FirstOrDefault();
 
             CreateRecipeComponentDTO? recipeComponent = createRecipeDTO.RecipeInfo.Ingredients.FirstOrDefault();
 
-            ingredient!.Ingredient.Id.Should().Be(recipeComponent!.IngredientId);
+            ingredient!.IngredientId.Should().Be(recipeComponent!.IngredientId);
 
             ingredient.Weight.Amount.Should().Be(recipeComponent!.Weight.Amount);
-            ingredient.Weight.Unit.Id.Should().Be(recipeComponent!.Weight.UnitId);
+            ingredient.Weight.UnitId.Should().Be(recipeComponent!.Weight.UnitId);
             ingredient.Waste.Amount.Should().Be(recipeComponent.Waste.Amount);
-            ingredient.Waste.Unit.Id.Should().Be(recipeComponent.Waste.UnitId);
+            ingredient.Waste.UnitId.Should().Be(recipeComponent.Waste.UnitId);
 
-            recipeDTOResponse.Quantity.Amount.Should().Be(createRecipeDTO.RecipeInfo.Quantity.Amount);
-            recipeDTOResponse.Quantity.Unit.Id.Should().Be(createRecipeDTO.RecipeInfo.Quantity.UnitId);
+            recipeDTOResponse.Amount.Should().Be(createRecipeDTO.RecipeInfo.Quantity.Amount);
+            recipeDTOResponse.UnitId.Should().Be(createRecipeDTO.RecipeInfo.Quantity.UnitId);
 
         }
     }

@@ -1,4 +1,5 @@
-﻿using MySaaS.Application.DTOs.Common.Unities;
+﻿using MySaaS.Application.DTOs.Common.Unit;
+using MySaaS.Application.DTOs.Common.Unities;
 using MySaaS.Application.Interfaces.Base;
 using MySaaS.Domain;
 using System;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace MySaaS.Application.Interfaces.Common.Unities
 {
-    public interface IUnitService : IService<UnitDTO,CreateUnitDTO,UpdateUnitDTO>
+    public interface IUnitService : IService<UnitDTO, CreateUnitDTO, UpdateUnitDTO, UnitResponse>
     {
     }
 }

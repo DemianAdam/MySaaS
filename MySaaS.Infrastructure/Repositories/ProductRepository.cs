@@ -23,12 +23,28 @@ namespace MySaaS.Infrastructure.Repositories
 
         public async Task<int> AddAsync(Product obj)
         {
-            return await _context.Connection.ExecuteScalarAsync<int>(ProductSQL.Insert, new
+            int productId = await _context.Connection.ExecuteScalarAsync<int>(ProductSQL.Insert, new
             {
                 ItemId = obj.ItemId,
                 Price = obj.Price,
                 RecipeId = obj.RecipeId
             }, _context.Transaction);
+
+            var categories = obj.ProductComponents?.Select(c => new
+            {
+                Product_Id = productId,
+                ProductCategoryId = c.CategoryId
+            });
+
+            if (categories is not null)
+            {
+                await _context.Connection.ExecuteAsync(ProductCategorySQL.Insert,
+                    categories,
+                    _context.Transaction);
+            }
+
+
+            return productId;
         }
 
         public async Task<bool> ExistsAsync(int objId)
@@ -46,17 +62,17 @@ namespace MySaaS.Infrastructure.Repositories
 
                 var lookup = categories
                     .GroupBy(c => c.ProductId)
-                    .ToDictionary(g => g.Key,g => g.ToList());
+                    .ToDictionary(g => g.Key, g => g.ToList());
 
                 foreach (var product in products)
                 {
-                    if(lookup.TryGetValue(product.ItemId, out var list))
+                    if (lookup.TryGetValue(product.ItemId, out var list))
                     {
-                        IEnumerable<Category> productCategories = list.Map();
+                        IEnumerable<ProductComponent> productCategories = list.Map();
                         product.UpdateCategories(productCategories);
                     }
                 }
-                    
+
             }
             return products;
         }

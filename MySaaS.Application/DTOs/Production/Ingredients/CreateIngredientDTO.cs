@@ -1,5 +1,5 @@
 ﻿using MySaaS.Application.DTOs.Common.Quantity;
-using MySaaS.Application.DTOs.Production.Recipes.Components;
+using MySaaS.Application.DTOs.Production.Recipes.Relations;
 using System;
 using System.Collections.Generic;
 using System.Text;

@@ -1,5 +1,5 @@
 ﻿using MySaaS.Application.DTOs.Common.Quantity;
-using MySaaS.Application.DTOs.Production.Recipes.Components;
+using MySaaS.Application.DTOs.Production.Recipes.Relations;
 
 namespace MySaaS.Application.DTOs.Production.Recipes
 {

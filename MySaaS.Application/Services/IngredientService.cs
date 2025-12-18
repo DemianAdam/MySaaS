@@ -33,7 +33,7 @@ namespace MySaaS.Application.Services
             _unitOfWork = unitOfWork;
             _logger = logger;
         }
-        public async Task<IngredientDTO> AddAsync(CreateIngredientDTO obj)
+        public async Task<IngredientResponse> AddAsync(CreateIngredientDTO obj)
         {
             Ingredient ingredient = obj.Map();
 
@@ -57,7 +57,7 @@ namespace MySaaS.Application.Services
                 int ingredientId = await _ingredientRepository.AddAsync(ingredient);
 
                 _unitOfWork.Commit();
-                return ingredient.Map();
+                return ingredient.ToResponse();
             }
             catch
             {
@@ -104,7 +104,7 @@ namespace MySaaS.Application.Services
             }
         }
 
-        public async Task<IngredientDTO> UpdateAsync(UpdateIngredientDTO obj)
+        public async Task<IngredientResponse> UpdateAsync(UpdateIngredientDTO obj)
         {
             Ingredient ingredient = obj.Map();
 
@@ -130,7 +130,7 @@ namespace MySaaS.Application.Services
                 await _ingredientRepository.UpdateAsync(ingredient);
 
                 _unitOfWork.Commit();
-                return ingredient.Map();
+                return ingredient.ToResponse();
             }
             catch (Exception ex)
             {
